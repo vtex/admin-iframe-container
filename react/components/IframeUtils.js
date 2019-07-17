@@ -34,7 +34,6 @@ const DELOREAN_REGISTRY = [
   "logistics",
   "message-center",
   "myaccount",
-  "myuser", // falar com bezerra pra tirar
   "payment-provider",
   "pci-gateway",
   "picking",
