@@ -12,7 +12,7 @@ const isDeloreanAdmin = slug => DELOREAN_REGISTRY.some(path => slug.startsWith(p
 export default class IframeContainer extends Component {
   static propTypes = {
     params: PropTypes.object,
-    withoutLegacy: PropTypes.boolean,
+    withoutLegacy: PropTypes.bool,
     children: PropTypes.node,
   }
 
