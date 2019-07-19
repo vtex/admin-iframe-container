@@ -12,13 +12,19 @@ const isDeloreanAdmin = slug => DELOREAN_REGISTRY.some(path => slug.startsWith(p
 export default class IframeContainer extends Component {
   static propTypes = {
     params: PropTypes.object,
+    withoutLegacy: PropTypes.bool,
     children: PropTypes.node,
   }
 
   render() {
-    const { params } = this.props
+    const { params, withoutLegacy } = this.props
 
     const slug = params && params.slug || ''
+
+    if (withoutLegacy) {
+      // Cover just IO apps, ignore legacy apps.
+      return <Iframe params={params} />
+    }
 
     if (isLegacy(slug)) {
       // IframeLegacy and isLegacy are covering Catalog and Legacy CMS admins
