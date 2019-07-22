@@ -1,7 +1,7 @@
 {
   "name": "admin-iframe-container",
   "vendor": "vtex",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "title": "VTEX Admin Iframe Container",
   "description": "VTEX Admin Iframe Container",
   "mustUpdateAt": "2017-09-26",
