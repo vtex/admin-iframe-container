@@ -80,7 +80,6 @@ class Iframe extends Component {
         pathname.replace('/admin', isDeloreanAdmin ? '/admin/iframe' : '/admin/app')
       }${search}${hash}`
 
-      this.forceUpdate()
       this.iframe.contentWindow.location.replace(newPath.replace(/\/+/g, '/'))
     }
   }
@@ -152,7 +151,6 @@ class Iframe extends Component {
         src={src}
         ref={this.handleRef}
         onLoad={this.handleOnLoad}
-        key={src}
         data-hj-suppress
       />
     ) : null
