@@ -87,27 +87,27 @@ class Iframe extends Component {
 
   updateBrowserHistory = ({ pathname: iframePathname, search: iframeSearch, hash: iframeHash }) => {
     const { isDeloreanAdmin } = this.props
-    const { navigate } = this.context
     const { pathname, search = '', hash = '' } = window.location
     const patchedIframeSearch = iframeSearch.replace(/(\?|\&)env\=beta/, '')
 
-    if (iframePathname.replace(isDeloreanAdmin ? '/iframe' : '/app', '') !== pathname
+    let formatedIframePathname = iframePathname.replace(isDeloreanAdmin ? '/iframe' : '/app', '')
+
+    const formatedPathname = !pathname.endsWith('/') ? `${pathname}/` : pathname
+    formatedIframePathname = !formatedIframePathname.endsWith('/') ? `${formatedIframePathname}/` : formatedIframePathname
+
+    if (formatedIframePathname !== formatedPathname
       || (decodeURIComponent(search) !== decodeURIComponent(patchedIframeSearch))
       || (decodeURIComponent(hash) !== decodeURIComponent(iframeHash))) {
 
-      const newPath = `${
-        iframePathname.replace(isDeloreanAdmin ? '/admin/iframe' : '/admin/app', '/admin')
-      }${patchedIframeSearch}${iframeHash}`
+      const newPath = `${formatedIframePathname}${patchedIframeSearch}${iframeHash}`
 
-      navigate({ to: newPath.replace(/\/+/g, '/') })
+      // here we use replaceState because the iframe navigation already pushed its url to the browser history, so we only need to
+      // change the current browser url
+      window.history.replaceState({}, '', newPath);
     }
   }
 
-  buildSrc(props, patchedSearch, hash) {
-    return `/admin/${props.isDeloreanAdmin ? 'iframe' : 'app'}/${props.params.slug}${patchedSearch || ''}${hash || ''}`
-  }
-
-  shouldComponentUpdate(nextProps) {
+  buildSrc(props) {
     const { loaded } = this.state
     const hash = loaded ? window.location.hash : ''
     const search = loaded ? window.location.search || '' : ''
@@ -119,10 +119,17 @@ class Iframe extends Component {
         : search.includes('env=beta')
           ? search
           : search + '&env=beta'
-    const nextSrc = this.buildSrc(nextProps, patchedSearch, hash)
-
-    return nextProps.isDeloreanAdmin || !(this.iframe && this.iframe.contentWindow.location.pathname.startsWith(nextSrc))
+    return `/admin/${props.isDeloreanAdmin ? 'iframe' : 'app'}/${props.params.slug || ''}${patchedSearch || ''}${hash || ''}`
   }
+
+  componentDidUpdate() {
+    const nextSrc = this.buildSrc(this.props)
+    if (this.props.isDeloreanAdmin || !(this.iframe && this.iframe.contentWindow.location.pathname === nextSrc)){
+      this.iframe && this.iframe.contentWindow.location.replace(nextSrc)
+    }
+  }
+
+  fixedSrc = ''
 
   render() {
     const { isDeloreanAdmin, params: { slug = '' } } = this.props
@@ -130,21 +137,15 @@ class Iframe extends Component {
       return
     }
     const { loaded } = this.state
-    const { location } = window
 
-    const hash = loaded ? location.hash : ''
-    const search = loaded ? location.search || '' : ''
-    const env = getEnv()
-    const patchedSearch = env !== 'beta'
-      ? search
-      : search === ''
-        ? '?env=beta'
-        : search.includes('env=beta')
-          ? search
-          : search + '&env=beta'
-
-    const src = location.pathname.replace('/admin', isDeloreanAdmin ? '/admin/iframe' : '/admin/app') + patchedSearch + hash
-
+    // if we update the iframe src, the iframe redirects to the src address and it automatically propagates this navigation to
+    // the browser history (this is the expected behaviour https://trillworks.com/nick/2014/06/11/changing-the-src-attribute-of-an-iframe-modifies-the-history/)
+    // so we only want to set the iframe src when it has been created in order to start on the URL that has been inserted in the browser in the first navigation.
+    // the navigation from outside into the iframe is made by `componentDidUpdate` changing the window location, this doesnt affect the browser history.
+    if (this.fixedSrc === '') {
+      this.fixedSrc = this.buildSrc(this.props)
+    }
+    const src = this.fixedSrc
     return loaded ? (
       <iframe
         className="w-100 calc--height overflow-container"
