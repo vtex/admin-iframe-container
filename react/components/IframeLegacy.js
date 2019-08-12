@@ -4,7 +4,6 @@ import { injectIntl } from 'react-intl'
 import React, { Component } from 'react'
 
 const COMPENSATION = 42
-const getLegacyBaseURL = account => `https://${account}.vtexcommerce${getEnv() === 'beta' ? 'beta' : 'stable'}.com.br/admin/`
 
 class IframeLegacy extends Component {
   static contextTypes = contextTypes
@@ -61,7 +60,7 @@ class IframeLegacy extends Component {
         // reset iframe height on navigate
         this.iframe.style.height = '700px'
       } else if (type === 'admin.absoluteNavigation') {
-        const newPathName = event.data.destination.split('/admin/')[1]
+        const newPathName = event.data.destination.split('/admin-proxy/')[1]
         const newUrl = `${window.location.origin}/admin/${newPathName}`
         window.location.replace(newUrl)
       }
@@ -83,10 +82,10 @@ class IframeLegacy extends Component {
     const { pathname, search = '', hash = '' } = window.location
     const patchedIframeSearch = iframeSearch.replace(/(\?|\&)env\=beta/, '')
 
-    if (iframePathname.replace('/iframe', '') !== pathname
+    if (iframePathname.replace('/admin-proxy', '') !== pathname
       || (search !== patchedIframeSearch)
       || (hash !== iframeHash)) {
-      const newPath = `${iframePathname.replace('/admin/iframe', '/admin')}${patchedIframeSearch}${iframeHash}`
+      const newPath = `${iframePathname.replace('/admin-proxy', '/admin')}${patchedIframeSearch}${iframeHash}`
       global.browserHistory.push(newPath.replace(/\/+/g, '/'))
     }
   }
@@ -106,7 +105,7 @@ class IframeLegacy extends Component {
           ? search
           : search + '&env=beta'
 
-    const src = `${getLegacyBaseURL(account)}${slug}${patchedSearch}${hash}`
+    const src = `/admin-proxy/${slug}${patchedSearch}${hash}`
 
     return loaded ? (
       <div className="w-100 calc--height overflow-container">
