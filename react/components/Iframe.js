@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { startsWith } from 'ramda'
+import { Spinner } from 'vtex.styleguide'
 import {
   stopLoading,
   getEnv,
@@ -17,6 +18,7 @@ class Iframe extends Component {
 
   state = {
     loaded: false,
+    loading: true,
   }
 
   componentDidMount = () => {
@@ -39,6 +41,7 @@ class Iframe extends Component {
 
   handleOnLoad = () => {
     stopLoading()
+    this.setState({ loading: false })
 
     if (this.iframe) {
       this.updateChildLocale(this.context.culture.locale)
@@ -87,6 +90,14 @@ class Iframe extends Component {
   updateBrowserHistory = ({ pathname: iframePathname, search: iframeSearch, hash: iframeHash }) => {
     const { isDeloreanAdmin } = this.props
     const { pathname, search = '', hash = '' } = window.location
+
+    // Login page should not be inside iframe
+    if(iframePathname.startsWith('/_v/segment/admin-login') || iframePathname.startsWith('/admin/auth/login')) {
+      this.setState({ loading: true })
+      window.top.location.reload()
+      return null
+    }
+
     const patchedIframeSearch = iframeSearch.replace(/(\?|\&)env\=beta/, '')
 
     let formatedIframePathname = iframePathname.replace(isDeloreanAdmin ? '/iframe' : '/app', '')
@@ -135,7 +146,7 @@ class Iframe extends Component {
     if (startsWith(isDeloreanAdmin ? 'iframe/' : 'app/', slug)) {
       return
     }
-    const { loaded } = this.state
+    const { loaded, loading } = this.state
 
     // if we update the iframe src, the iframe redirects to the src address and it automatically propagates this navigation to
     // the browser history (this is the expected behaviour https://trillworks.com/nick/2014/06/11/changing-the-src-attribute-of-an-iframe-modifies-the-history/)
@@ -145,16 +156,25 @@ class Iframe extends Component {
       this.fixedSrc = this.buildSrc(this.props)
     }
     const src = this.fixedSrc
-    return loaded ? (
-      <iframe
-        className="w-100 calc--height overflow-container"
-        frameBorder="0"
-        src={src}
-        ref={this.handleRef}
-        onLoad={this.handleOnLoad}
-        data-hj-suppress
-      />
-    ) : null
+    return (
+      <>
+        {loading && (
+          <div className="w-100 calc--height flex items-center justify-center bg-base c-muted-1">
+            <Spinner color="currentColor" size={40} />
+          </div>
+        )}
+        {loaded ? (
+          <iframe
+            className="w-100 calc--height overflow-container"
+            frameBorder="0"
+            src={src}
+            ref={this.handleRef}
+            onLoad={this.handleOnLoad}
+            data-hj-suppress
+          />
+        ) : null}
+      </>
+    )
   }
 }
 
