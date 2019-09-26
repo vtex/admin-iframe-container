@@ -41,7 +41,6 @@ class Iframe extends Component {
 
   handleOnLoad = () => {
     stopLoading()
-    // this.setState({ loading: false })
 
     if (this.iframe) {
       this.updateChildLocale(this.context.culture.locale)
