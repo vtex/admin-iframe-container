@@ -18,7 +18,7 @@ class Iframe extends Component {
 
   state = {
     loaded: false,
-    loading: true,
+    loading: false,
   }
 
   componentDidMount = () => {
@@ -41,7 +41,7 @@ class Iframe extends Component {
 
   handleOnLoad = () => {
     stopLoading()
-    this.setState({ loading: false })
+    // this.setState({ loading: false })
 
     if (this.iframe) {
       this.updateChildLocale(this.context.culture.locale)
