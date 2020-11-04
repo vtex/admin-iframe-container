@@ -6,7 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Added
+
+- `customHeightGap` prop to allow a defining the Iframe's height gap on a flexible fashion.
+
 ### Removed
+
+- Unused imports from the `Iframe.js` and `iframeUtils.js` files.
 - Rollback v1.0.9
 
 ## [1.0.9] - 2019-09-26
