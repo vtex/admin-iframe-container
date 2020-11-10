@@ -14,10 +14,11 @@ export default class IframeContainer extends Component {
     params: PropTypes.object,
     withoutLegacy: PropTypes.bool,
     children: PropTypes.node,
+    customHeightGap: PropTypes.string
   }
 
   render() {
-    const { params, withoutLegacy } = this.props
+    const { params, withoutLegacy, customHeightGap } = this.props
 
     const slug = params && params.slug || ''
 
@@ -31,13 +32,14 @@ export default class IframeContainer extends Component {
       // those are the old portal9 admins served by portal in vtexcommercestable
       return <IframeLegacy params={params} />
     } else if (isDeloreanAdmin(slug)) {
-      // this is covering "Legacy" admins versioned by Delorean
+      // This is covering "Legacy" admins versioned by Delorean
       // those were rendered by concierge, but now render delivers them as statics
       return <Iframe params={params} isDeloreanAdmin />
     } else {
-      // this covers the rest of cases, which are IO apps that are admins
+      // This covers the rest of cases, which are IO apps that are admins
       // with "/admin/app" routes and fallback to 404 slugs
-      return <Iframe params={params} />
+      // The customHeightGap is only used on the Admin V4 (see vtex/admin)
+      return <Iframe params={params} customHeightGap={customHeightGap} />
     }
   }
 }

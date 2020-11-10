@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import Cookies from 'js-cookie'
-import { intlShape } from 'react-intl'
 import axios from 'axios'
 let isPricingV2Active = window && window.localStorage && window.localStorage.getItem('routePriceSheetFromS3') || null
 
