@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.1.0] - 2020-11-10
+
 ### Added
 
 - `customHeightGap` prop to allow a defining the Iframe's height gap on a flexible fashion.
