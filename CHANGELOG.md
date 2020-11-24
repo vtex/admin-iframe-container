@@ -7,11 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- `customHeightGap` prop on the `IframeLegacy` component, to allow defining the Iframe's height gap on a flexible fashion.
+
+### Changed
+
+- Moved the Iframe's style logic to the `IframeUtils.js`, since that logic is now used in multiple components.
+
 ## [1.1.0] - 2020-11-10
 
 ### Added
 
-- `customHeightGap` prop to allow a defining the Iframe's height gap on a flexible fashion.
+- `customHeightGap` prop to allow defining the Iframe's height gap on a flexible fashion.
 
 ### Removed
 
@@ -19,7 +27,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Rollback v1.0.9
 
 ## [1.0.9] - 2019-09-26
+
 ### Added
+
 - Prevent to show a black page while iframe is in loading.
 - Force reload when lost session.
 
@@ -49,7 +59,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 
- - Remove myuser old admin from the legacy admins whitelist
+- Remove myuser old admin from the legacy admins whitelist
 
 ## [1.0.2] - 2019-07-17
 
