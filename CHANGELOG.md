@@ -59,7 +59,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 
-- Remove myuser old admin from the legacy admins whitelist
+ - Remove myuser old admin from the legacy admins whitelist
 
 ## [1.0.2] - 2019-07-17
 
