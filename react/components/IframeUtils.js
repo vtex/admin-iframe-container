@@ -310,6 +310,19 @@ const getLegacyHeaderTabs = pathName => {
   return { tabs, title }
 }
 
+const iframeStyle = ({ customHeightGap }) => ({
+  width: '100%',
+  overflowY: 'scroll',
+  // Admin V3's header height is 48px (3em), while the following version's
+  // header (Admin V4) is 56px (3.5em), and has a global alert that's displayed
+  // on top of the header and has different heights depending on the
+  // viewport. The customHeightGap prop is used here to fit the iframe
+  // within the app in a flexible enough fashion, which allows to cover
+  // multiple use cases from within the apps that use this app.
+  height: `calc(100vh - ${customHeightGap ? customHeightGap : '3em'})`,
+})
+
+
 export {
   stopLoading,
   getEnv,
@@ -322,4 +335,5 @@ export {
   getLegacyHeaderTabs,
   checkPricingVersion,
   DELOREAN_REGISTRY,
+  iframeStyle
 }

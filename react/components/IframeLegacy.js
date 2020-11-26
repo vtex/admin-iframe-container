@@ -1,4 +1,4 @@
-import { stopLoading, getEnv, componentDidMount, componentWillUnmount, updateChildLocale, handleRef, contextTypes, propTypes, checkPricingVersion } from './IframeUtils'
+import { stopLoading, getEnv, componentDidMount, componentWillUnmount, updateChildLocale, handleRef, contextTypes, propTypes, checkPricingVersion, iframeStyle } from './IframeUtils'
 import LegacyHeader from './LegacyHeader'
 import { injectIntl } from 'react-intl'
 import React, { Component } from 'react'
@@ -92,8 +92,8 @@ class IframeLegacy extends Component {
   }
 
   render() {
-    const { account, navigate } = this.context
-    const { intl, params: { slug = '' } } = this.props
+    const { account } = this.context
+    const { params: { slug = '' }, customHeightGap } = this.props
     const { loaded, iframeQuery } = this.state
     const hash = loaded ? window.location.hash : ''
     const search = loaded ? window.location.search || '' : ''
@@ -109,7 +109,7 @@ class IframeLegacy extends Component {
     const src = `${getLegacyBaseURL(account)}${slug}${patchedSearch}${hash}`
 
     return loaded ? (
-      <div className="w-100 calc--height overflow-container">
+      <div style={iframeStyle({ customHeightGap })}>
         <LegacyHeader search={iframeQuery} slug={slug} />
         <iframe
           style={{ height: 700 }}

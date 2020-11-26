@@ -9,6 +9,7 @@ import {
   handleRef,
   contextTypes,
   propTypes,
+  iframeStyle
 } from './IframeUtils'
 
 class Iframe extends Component {
@@ -138,17 +139,6 @@ class Iframe extends Component {
     }
     const { loaded } = this.state
     const { customHeightGap } = this.props
-    const style = {
-      width: "100%",
-      overflowY: "scroll",
-      // Admin V3's header height is 48px (3em), while the following version's
-      // header (Admin V4) is 56px (3.5em), and has a global alert that's displayed 
-      // on top of the header and has different heights depending on the
-      // viewport. The customHeightGap prop is used here to fit the iframe
-      // within the app in a flexible enough fashion, which allows to cover
-      // multiple use cases from within the apps that use this app.
-      height: `calc(100vh - ${customHeightGap ? customHeightGap : '3em' })`
-    }
 
     // if we update the iframe src, the iframe redirects to the src address and it automatically propagates this navigation to
     // the browser history (this is the expected behaviour https://trillworks.com/nick/2014/06/11/changing-the-src-attribute-of-an-iframe-modifies-the-history/)
@@ -161,7 +151,7 @@ class Iframe extends Component {
     return loaded ? (
       <iframe
         frameBorder="0"
-        style={style}
+        style={iframeStyle({ customHeightGap })}
         src={src}
         ref={this.handleRef}
         onLoad={this.handleOnLoad}
