@@ -5,22 +5,27 @@ import React, { Component } from 'react'
 import { DELOREAN_REGISTRY } from './IframeUtils'
 import IframeLegacy from './IframeLegacy'
 import Iframe from './Iframe'
+import { ThemeProvider } from '@vtex/admin-ui'
 
-const isLegacy = slug => startsWith('Site/', slug) || equals('a', slug) || startsWith('site/', slug)
-const isDeloreanAdmin = slug => DELOREAN_REGISTRY.some(path => slug.startsWith(path))
+const isLegacy = (slug) =>
+  startsWith('Site/', slug) || equals('a', slug) || startsWith('site/', slug)
+const isDeloreanAdmin = (slug) =>
+  DELOREAN_REGISTRY.some((path) => slug.startsWith(path))
 
 export default class IframeContainer extends Component {
   static propTypes = {
     params: PropTypes.object,
     withoutLegacy: PropTypes.bool,
     children: PropTypes.node,
-    customHeightGap: PropTypes.string
+    customHeightGap: PropTypes.string,
   }
 
   render() {
     const { params, withoutLegacy, customHeightGap } = this.props
 
-    const slug = params && params.slug || ''
+    console.debug('container this', this)
+
+    const slug = (params && params.slug) || ''
 
     if (withoutLegacy) {
       // Cover just IO apps, ignore legacy apps.
@@ -30,7 +35,11 @@ export default class IframeContainer extends Component {
     if (isLegacy(slug)) {
       // IframeLegacy and isLegacy are covering Catalog and Legacy CMS admins
       // those are the old portal9 admins served by portal in vtexcommercestable
-      return <IframeLegacy params={params} />
+      return (
+        <ThemeProvider>
+          <IframeLegacy params={params} />
+        </ThemeProvider>
+      )
     } else if (isDeloreanAdmin(slug)) {
       // This is covering "Legacy" admins versioned by Delorean
       // those were rendered by concierge, but now render delivers them as statics

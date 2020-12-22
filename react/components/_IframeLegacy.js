@@ -1,12 +1,23 @@
-import { stopLoading, getEnv, componentDidMount, componentWillUnmount, updateChildLocale, handleRef, contextTypes, propTypes, checkPricingVersion } from './IframeUtils'
+import {
+  stopLoading,
+  getEnv,
+  componentDidMount,
+  componentWillUnmount,
+  updateChildLocale,
+  handleRef,
+  contextTypes,
+  propTypes,
+  checkPricingVersion,
+} from './IframeUtils'
 import LegacyHeader from './LegacyHeader'
 import { injectIntl } from 'react-intl'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
 const COMPENSATION = 42
-const getLegacyBaseURL = account => `https://${account}.vtexcommerce${getEnv() === 'beta' ? 'beta' : 'stable'}.com.br/admin/`
+const getLegacyBaseURL = account =>
+  `https://newadmin--${account}.myvtex.com/admin-proxy/`
 
-class IframeLegacy extends Component {
+class IframeLegacy extends PureComponent {
   static contextTypes = contextTypes
   static propTypes = propTypes
 
@@ -27,8 +38,8 @@ class IframeLegacy extends Component {
   }
 
   handlePopState = () => {
-    this.setState({loaded: false}, () => {
-      this.setState({loaded: true})
+    this.setState({ loaded: false }, () => {
+      this.setState({ loaded: true })
     })
   }
 
@@ -42,12 +53,18 @@ class IframeLegacy extends Component {
     this.updateBrowserHistory(this.iframe.contentWindow.location)
   }
 
-  handleIframeMessage = (event) => {
+  handleIframeMessage = event => {
+    event.preventDefault()
     if (event.data && event.data.type) {
       const type = event.data.type
-      console.debug(`%c [LEGACY IFRAME] \n Received iframe message with type: ${type}`, 'background: #002833; color: #bada55')
+      console.debug(
+        `%c [LEGACY IFRAME] \n Received iframe message with type: ${type}`,
+        'background: #002833; color: #bada55'
+      )
       if (type === 'admin.updateContentHeight') {
-        const iframeHeight = parseInt(this.iframe.style.height.replace('px', ''))
+        const iframeHeight = parseInt(
+          this.iframe.style.height.replace('px', '')
+        )
         const eventHeight = event.data.height
         if (Math.abs(eventHeight - iframeHeight) > COMPENSATION) {
           // This compensation is here to prevent a loop where the height of the content keeps growing
@@ -61,8 +78,9 @@ class IframeLegacy extends Component {
         // reset iframe height on navigate
         this.iframe.style.height = '700px'
       } else if (type === 'admin.absoluteNavigation') {
-        const newPathName = event.data.destination.split('/admin/')[1]
+        const newPathName = event.data.destination.split('/admin-proxy/')[1]
         const newUrl = `${window.location.origin}/admin/${newPathName}`
+        console.debug('abs new url', newUrl)
         window.location.replace(newUrl)
       }
     }
@@ -74,37 +92,59 @@ class IframeLegacy extends Component {
     if (this.iframe) {
       this.updateChildLocale(this.context.culture.locale)
 
-      const message = { type: 'admin.parent.hostname', hostname: window.location.hostname }
+      const message = {
+        type: 'admin.parent.hostname',
+        hostname: window.location.hostname,
+      }
       this.iframe.contentWindow.postMessage(message, '*')
     }
   }
 
-  updateBrowserHistory = ({ pathname: iframePathname, search: iframeSearch, hash: iframeHash }) => {
+  updateBrowserHistory = ({
+    pathname: iframePathname,
+    search: iframeSearch,
+    hash: iframeHash,
+  }) => {
     const { pathname, search = '', hash = '' } = window.location
     const patchedIframeSearch = iframeSearch.replace(/(\?|\&)env\=beta/, '')
 
-    if (iframePathname.replace('/iframe', '') !== pathname
-      || (search !== patchedIframeSearch)
-      || (hash !== iframeHash)) {
-      const newPath = `${iframePathname.replace('/admin/iframe', '/admin')}${patchedIframeSearch}${iframeHash}`
+    if (
+      iframePathname.replace('/iframe', '') !== pathname ||
+      search !== patchedIframeSearch ||
+      hash !== iframeHash
+    ) {
+      console.debug('iframe pathName', iframePathname)
+      const newPath = `${iframePathname.replace(
+        '/admin-proxy',
+        '/admin'
+      )}${patchedIframeSearch}${iframeHash}`
+      console.debug('new path', newPath)
+      console.debug('window history', window.history.state)
       global.browserHistory.push(newPath.replace(/\/+/g, '/'))
     }
   }
 
   render() {
-    const { account, navigate } = this.context
-    const { intl, params: { slug = '' } } = this.props
+    const { account } = this.context
+    const {
+      params: { slug = '' },
+    } = this.props
     const { loaded, iframeQuery } = this.state
     const hash = loaded ? window.location.hash : ''
     const search = loaded ? window.location.search || '' : ''
     const env = getEnv()
-    const patchedSearch = env !== 'beta'
-      ? search
-      : search === ''
+    const patchedSearch =
+      env !== 'beta'
+        ? search
+        : search === ''
         ? '?env=beta'
         : search.includes('env=beta')
-          ? search
-          : search + '&env=beta'
+        ? search
+        : search + '&env=beta'
+
+    console.debug('this', this)
+    console.debug('context', this.context)
+    console.debug('props', this.props)
 
     const src = `${getLegacyBaseURL(account)}${slug}${patchedSearch}${hash}`
 
