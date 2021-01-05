@@ -10,6 +10,11 @@ let isPricingV2Active =
 
 const getEnv = () => Cookies.get('vtex-commerce-env') || 'stable'
 
+export const stopLoading = () =>
+  window.postMessage({ action: { type: 'STOP_LOADING' } }, '*')
+export const startLoading = () =>
+  window.postMessage({ action: { type: 'START_LOADING' } }, '*')
+
 export async function checkPricingVersion() {
   // isPricingV2Active oneOf[true,false,null]
   // true => pricing v2 (hide the sku price table)
@@ -21,6 +26,20 @@ export async function checkPricingVersion() {
     isPricingV2Active = (res.data && res.data.routePriceSheetFromS3) || null
     localStorage.setItem('routePriceSheetFromS3', isPricingV2Active)
   }
+}
+
+export function componentDidMount() {
+  const { emitter } = this.context
+
+  startLoading()
+  emitter.on('localesChanged', this.updateChildLocale)
+  this.setState({ loaded: true })
+}
+
+export function componentWillUnmount() {
+  const { emitter } = this.context
+
+  emitter.off('localesChanged', this.updateChildLocale)
 }
 
 const DELOREAN_REGISTRY = [

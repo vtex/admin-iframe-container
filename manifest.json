@@ -6,7 +6,9 @@
   "description": "VTEX Admin Iframe Container",
   "mustUpdateAt": "2017-09-26",
   "credentialType": "absolute",
-  "categories": ["admin"],
+  "categories": [
+    "admin"
+  ],
   "settingsSchema": {},
   "dependencies": {
     "vtex.styleguide": "9.x",

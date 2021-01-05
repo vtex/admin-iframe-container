@@ -27,6 +27,7 @@ export default function HookedIframe(props) {
 
   React.useEffect(
     function init() {
+      console.log('iframe container')
       checkPricingVersion()
       startLoading()
       emitter.on('localesChanged', updateChildLocale)
@@ -50,7 +51,7 @@ export default function HookedIframe(props) {
   }
 
   const handleOnLoad = () => {
-    stopLoading() // REVIEW
+    stopLoading()
 
     if (!iframeRef.current) {
       return
