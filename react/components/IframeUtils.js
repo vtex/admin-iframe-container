@@ -10,12 +10,6 @@ let isPricingV2Active =
 
 const getEnv = () => Cookies.get('vtex-commerce-env') || 'stable'
 
-const startLoading = () =>
-  window.postMessage({ action: { type: 'START_LOADING' } }, '*')
-
-const stopLoading = () =>
-  window.postMessage({ action: { type: 'STOP_LOADING' } }, '*')
-
 export async function checkPricingVersion() {
   // isPricingV2Active oneOf[true,false,null]
   // true => pricing v2 (hide the sku price table)
@@ -55,20 +49,6 @@ const DELOREAN_REGISTRY = [
   'vtexid',
   'vtable',
 ]
-
-function componentDidMount() {
-  const { emitter } = this.context
-
-  startLoading()
-  emitter.on('localesChanged', this.updateChildLocale)
-  this.setState({ loaded: true })
-}
-
-function componentWillUnmount() {
-  const { emitter } = this.context
-
-  emitter.off('localesChanged', this.updateChildLocale)
-}
 
 function handleRef(iframe) {
   this.iframe = iframe
@@ -375,10 +355,7 @@ const getLegacyHeaderTabs = pathName => {
 }
 
 export {
-  stopLoading,
   getEnv,
-  componentDidMount,
-  componentWillUnmount,
   updateChildLocale,
   handleRef,
   contextTypes,

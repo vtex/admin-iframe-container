@@ -4,32 +4,17 @@ import { useRuntime } from 'vtex.render-runtime'
 
 import LegacyHeader from './LegacyHeader'
 import { getEnv, propTypes, checkPricingVersion } from './IframeUtils'
+import { useLoading } from '../hooks/useLoading'
 
 const COMPENSATION = 42
 
 // const getLegacyBaseURL = account =>
 //   `https://newadmin--${account}.myvtex.com/admin-proxy/`
 
-function useLoading() {
-  const startLoading = React.useCallback(
-    () => window.postMessage({ action: { type: 'START_LOADING' } }, '*'),
-    []
-  )
-
-  const stopLoading = React.useCallback(
-    () => window.postMessage({ action: { type: 'STOP_LOADING' } }, '*'),
-    []
-  )
-
-  return {
-    startLoading,
-    stopLoading,
-  }
-}
-
 export default function HookedIframe(props) {
   const {
     account,
+    workspace,
     culture: { locale },
     emitter,
     // navigate,
@@ -167,8 +152,12 @@ export default function HookedIframe(props) {
 
   const src = React.useMemo(
     () =>
-      `https://miau--${account}.myvtex.com/admin-proxy/${props.params.slug}${patchedSearch}${hash}`,
-    [account, hash, patchedSearch, props.params.slug]
+      `https://${
+        workspace ? `${workspace}--` : ''
+      }${account}.myvtex.com/admin-proxy/${
+        props.params.slug
+      }${patchedSearch}${hash}`,
+    [account, hash, patchedSearch, props.params.slug, workspace]
   )
 
   return (
@@ -187,6 +176,7 @@ export default function HookedIframe(props) {
           className={cn({
             width: 'full',
             height: 700,
+            overflow: 'scroll',
           })}
           onLoad={handleOnLoad}
           ref={iframeRef}
