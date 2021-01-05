@@ -26,9 +26,7 @@ function Iframe(props) {
       emitter.on('localesChanged', updateChildLocale)
       setLoaded(true)
       window.addEventListener('popstate', updateIframeHistory)
-      if (typeof forceUpdate === 'function') {
-        forceUpdate()
-      }
+      forceUpdate()
 
       return () => {
         window.removeEventListener('popstate', updateIframeHistory)
@@ -61,6 +59,8 @@ function Iframe(props) {
     iframe.contentWindow.addEventListener('querychange', handleIframeNavigation)
     iframe.contentWindow.addEventListener('popstate', handleIframeNavigation)
     const iframeHistory = iframe.contentWindow.history
+
+    forceUpdate()
 
     if (
       iframeHistory &&
@@ -166,6 +166,8 @@ function Iframe(props) {
     function didUpdate() {
       const nextSrc = buildSrc()
 
+      forceUpdate()
+
       if (
         isDeloreanAdmin ||
         !(
@@ -177,7 +179,7 @@ function Iframe(props) {
           iframeRef.current.contentWindow.location.replace(nextSrc)
       }
     },
-    [buildSrc, isDeloreanAdmin]
+    [buildSrc, isDeloreanAdmin, forceUpdate]
   )
 
   const [fixedSrc, setFixedSrc] = useState('')
