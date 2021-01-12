@@ -8,16 +8,12 @@ import { useLoading } from '../hooks/useLoading'
 
 const COMPENSATION = 42
 
-// const getLegacyBaseURL = account =>
-//   `https://newadmin--${account}.myvtex.com/admin-proxy/`
-
 export default function HookedIframe(props) {
   const {
     account,
     workspace,
     culture: { locale },
     emitter,
-    // navigate,
   } = useRuntime()
 
   const { startLoading, stopLoading } = useLoading()
@@ -27,7 +23,6 @@ export default function HookedIframe(props) {
 
   React.useEffect(
     function init() {
-      console.log('iframe container')
       checkPricingVersion()
       startLoading()
       emitter.on('localesChanged', updateChildLocale)
@@ -75,11 +70,6 @@ export default function HookedIframe(props) {
 
     const { type } = event.data
 
-    // console.debug(
-    //   `%c [LEGACY IFRAME] \n Received iframe message with type: ${type}`,
-    //   'background: #002833; color: #bada55'
-    // )
-
     if (type === 'admin.updateContentHeight') {
       const iframeHeight = parseInt(
         iframeRef.current.style.height.replace('px', ''),
@@ -96,9 +86,9 @@ export default function HookedIframe(props) {
         iframeRef.current.style.height = `${eventHeight}px`
       }
     } else if (type === 'admin.navigation') {
-      // updateBrowserHistory(event.data)
       // reset iframe height on navigate
       iframeRef.current.style.height = '700px'
+      updateBrowserHistory(event.data)
     } else if (type === 'admin.absoluteNavigation') {
       // const [, newPathName] = event.data.destination.split('/admin-proxy/')
       // const newUrl = `${window.location.origin}/admin/${newPathName}`
@@ -109,33 +99,29 @@ export default function HookedIframe(props) {
     }
   }, [])
 
-  // const updateBrowserHistory = ({
-  //   pathname: iframePathname,
-  //   search: iframeSearch,
-  //   hash: iframeHash,
-  // }) => {
-  //   const { pathname, search = '', hash = '' } = window.location
-  //   const patchedIframeSearch = iframeSearch.replace(/(\?|&)env=beta/, '')
+  const updateBrowserHistory = ({
+    pathname: iframePathname,
+    search: iframeSearch,
+    hash: iframeHash,
+  }) => {
+    const { pathname, search = '', hash = '' } = window.location
+    const patchedIframeSearch = iframeSearch.replace(/(\?|&)env=beta/, '')
 
-  //   if (
-  //     iframePathname.replace('/iframe', '') !== pathname ||
-  //     search !== patchedIframeSearch ||
-  //     hash !== iframeHash
-  //   ) {
-  //     const newPath = `${iframePathname.replace(
-  //       '/admin-proxy',
-  //       '/admin'
-  //     )}${patchedIframeSearch}${iframeHash}`
-
-  //     // navigate({
-  //     //   to: newPath.replace(/\/+/g, '/'),
-  //     // })
-  //     // global.browserHistory.push(newPath.replace(/\/+/g, '/'))
-  //   }
-  // }
+    if (
+      iframePathname.replace('/iframe', '') !== pathname ||
+      search !== patchedIframeSearch ||
+      hash !== iframeHash
+    ) {
+      global.browserHistory.push(
+        `${iframePathname.replace(
+          'admin-proxy',
+          'admin'
+        )}${patchedIframeSearch}${iframeHash}`
+      )
+    }
+  }
 
   const handlePopState = () => {
-    // console.debug('handleIframeMessage()')
     setLoaded(true)
   }
 
