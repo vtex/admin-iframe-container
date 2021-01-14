@@ -124,15 +124,14 @@ export default function HookedIframe(props) {
       ? search
       : `${search}&env=beta`
 
-  const src = React.useMemo(
-    () =>
-      `https://${
-        workspace ? `${workspace}--` : ''
-      }${account}.myvtex.com/admin-proxy/${
-        props.params.slug
-      }${patchedSearch}${hash}`,
-    [account, hash, patchedSearch, props.params.slug, workspace]
-  )
+  const src = React.useMemo(() => {
+    const isDevWorkspace = workspace && workspace !== 'master'
+    const environment = isDevWorkspace ? `${workspace}--` : ''
+    const host = `${account}.myvtex.com/admin-proxy/`
+    const source = `${props.params.slug}${patchedSearch}${hash}`
+
+    return `https://${environment}${host}${source}`
+  }, [account, hash, patchedSearch, props.params.slug, workspace])
 
   return (
     <Box
