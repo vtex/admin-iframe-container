@@ -1,3 +1,5 @@
+/* eslint-disable no-fallthrough */
+/* eslint-disable vtex/prefer-early-return */
 import PropTypes from 'prop-types'
 import Cookies from 'js-cookie'
 import axios from 'axios'

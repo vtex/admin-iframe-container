@@ -1,12 +1,10 @@
-import React from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Box, cn, Skeleton } from '@vtex/admin-ui'
 import { useRuntime } from 'vtex.render-runtime'
 
 import LegacyHeader from './LegacyHeader'
 import { getEnv, propTypes, checkPricingVersion } from './IframeUtils'
 import { useLoading } from '../hooks/useLoading'
-
-const COMPENSATION = 42
 
 export default function HookedIframe(props) {
   const {
@@ -17,11 +15,12 @@ export default function HookedIframe(props) {
   } = useRuntime()
 
   const { startLoading, stopLoading } = useLoading()
-  const [loaded, setLoaded] = React.useState(false)
-  const [iframeQuery] = React.useState('')
-  const iframeRef = React.useRef(null)
+  const [height, setHeight] = useState(700)
+  const [loaded, setLoaded] = useState(false)
+  const [iframeQuery] = useState('')
+  const iframeRef = useRef(null)
 
-  React.useEffect(
+  useEffect(
     function init() {
       checkPricingVersion()
       startLoading()
@@ -39,6 +38,16 @@ export default function HookedIframe(props) {
     [emitter, handleIframeMessage, startLoading]
   )
 
+  const updateHeight = useCallback(value => {
+    const threshold = 700
+
+    if (value < threshold) {
+      setHeight(700)
+    } else {
+      setHeight(value)
+    }
+  }, [])
+
   const updateChildLocale = payload => {
     const message = { action: { type: 'LOCALE_SELECTED', payload } }
 
@@ -48,9 +57,7 @@ export default function HookedIframe(props) {
   const handleOnLoad = () => {
     stopLoading()
 
-    if (!iframeRef.current) {
-      return
-    }
+    if (!iframeRef.current) return
 
     updateChildLocale(locale)
 
@@ -62,42 +69,22 @@ export default function HookedIframe(props) {
     iframeRef.current.contentWindow.postMessage(message, '*')
   }
 
-  const handleIframeMessage = React.useCallback(event => {
-    event.preventDefault()
-    if (!event.data || !event.data.type) {
-      return
-    }
+  const handleIframeMessage = React.useCallback(
+    event => {
+      event.preventDefault()
 
-    const { type } = event.data
+      if (!event.data || !event.data.type) return
 
-    if (type === 'admin.updateContentHeight') {
-      const iframeHeight = parseInt(
-        iframeRef.current.style.height.replace('px', ''),
-        10
-      )
+      const { type } = event.data
 
-      const eventHeight = event.data.height
-
-      if (Math.abs(eventHeight - iframeHeight) > COMPENSATION) {
-        // This compensation is here to prevent a loop where the height of the content keeps growing
-        // this happens due to methods of getting content height, which counts with diferente components
-        // on the page such as horizontal scroll bars, which are different sizes depending on the OS
-        // more here: http://usefulangle.com/post/65/javascript-automatically-resize-iframe
-        iframeRef.current.style.height = `${eventHeight}px`
+      if (type === 'admin.updateContentHeight') updateHeight(event.data.height)
+      if (type === 'admin.navigation') {
+        if (window) window.scrollTo(0, 0)
+        updateBrowserHistory(event.data)
       }
-    } else if (type === 'admin.navigation') {
-      // reset iframe height on navigate
-      iframeRef.current.style.height = '700px'
-      updateBrowserHistory(event.data)
-    } else if (type === 'admin.absoluteNavigation') {
-      // const [, newPathName] = event.data.destination.split('/admin-proxy/')
-      // const newUrl = `${window.location.origin}/admin/${newPathName}`
-      // navigate({
-      //   to: newUrl,
-      // })
-      // window.location.replace(newUrl)
-    }
-  }, [])
+    },
+    [updateHeight]
+  )
 
   const updateBrowserHistory = ({
     pathname: iframePathname,
@@ -162,7 +149,7 @@ export default function HookedIframe(props) {
           frameBorder="0"
           className={cn({
             width: 'full',
-            height: 700,
+            height: `${height}px !important`,
             overflow: 'scroll',
           })}
           onLoad={handleOnLoad}
