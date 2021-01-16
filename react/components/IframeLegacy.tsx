@@ -2,15 +2,22 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Box, cn, Skeleton } from '@vtex/admin-ui'
 import { useRuntime } from 'vtex.render-runtime'
 
-import LegacyHeader from './LegacyHeader'
-import { getEnv, propTypes, checkPricingVersion } from './IframeUtils'
+import { LegacyHeader } from './LegacyHeader'
+import { getEnv, checkPricingVersion } from '../util'
 import { useLoading } from '../hooks/useLoading'
 
-export default function HookedIframe(props) {
+interface Props {
+  params?: {
+    slug?: string
+  }
+}
+
+export function IframeLegacy(props: Props) {
   const {
     account,
     workspace,
     culture: { locale },
+    // @ts-expect-error emitter is not available on type, but exists on RenderContext
     emitter,
   } = useRuntime()
 
@@ -18,25 +25,7 @@ export default function HookedIframe(props) {
   const [height, setHeight] = useState(700)
   const [loaded, setLoaded] = useState(false)
   const [iframeQuery] = useState('')
-  const iframeRef = useRef(null)
-
-  useEffect(
-    function init() {
-      checkPricingVersion()
-      startLoading()
-      emitter.on('localesChanged', updateChildLocale)
-      setLoaded(true)
-      window.addEventListener('message', handleIframeMessage)
-      window.addEventListener('popstate', handlePopState)
-
-      return () => {
-        window.removeEventListener('message', handleIframeMessage)
-        window.removeEventListener('popstate', handlePopState)
-        emitter.off('localesChanged', updateChildLocale)
-      }
-    },
-    [emitter, handleIframeMessage, startLoading]
-  )
+  const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const updateHeight = useCallback(value => {
     const threshold = 700
@@ -48,10 +37,10 @@ export default function HookedIframe(props) {
     }
   }, [])
 
-  const updateChildLocale = payload => {
+  const updateChildLocale = (payload: unknown) => {
     const message = { action: { type: 'LOCALE_SELECTED', payload } }
 
-    iframeRef.current.contentWindow.postMessage(message, '*')
+    iframeRef?.current?.contentWindow?.postMessage(message, '*')
   }
 
   const handleOnLoad = () => {
@@ -66,7 +55,36 @@ export default function HookedIframe(props) {
       hostname: window.location.hostname,
     }
 
-    iframeRef.current.contentWindow.postMessage(message, '*')
+    iframeRef?.current?.contentWindow?.postMessage(message, '*')
+  }
+
+  const updateBrowserHistory = (params: {
+    pathname: string
+    search: string
+    hash: string
+  }) => {
+    const {
+      pathname: iframePathname,
+      search: iframeSearch,
+      hash: iframeHash,
+    } = params
+
+    const { pathname, search = '', hash = '' } = window.location
+    const patchedIframeSearch = iframeSearch.replace(/(\?|&)env=beta/, '')
+
+    if (
+      iframePathname.replace('/iframe', '') !== pathname ||
+      search !== patchedIframeSearch ||
+      hash !== iframeHash
+    ) {
+      // @ts-expect-error browser error should be here
+      global.browserHistory.push(
+        `${iframePathname.replace(
+          'admin-proxy',
+          'admin'
+        )}${patchedIframeSearch}${iframeHash}`
+      )
+    }
   }
 
   const handleIframeMessage = React.useCallback(
@@ -86,31 +104,27 @@ export default function HookedIframe(props) {
     [updateHeight]
   )
 
-  const updateBrowserHistory = ({
-    pathname: iframePathname,
-    search: iframeSearch,
-    hash: iframeHash,
-  }) => {
-    const { pathname, search = '', hash = '' } = window.location
-    const patchedIframeSearch = iframeSearch.replace(/(\?|&)env=beta/, '')
-
-    if (
-      iframePathname.replace('/iframe', '') !== pathname ||
-      search !== patchedIframeSearch ||
-      hash !== iframeHash
-    ) {
-      global.browserHistory.push(
-        `${iframePathname.replace(
-          'admin-proxy',
-          'admin'
-        )}${patchedIframeSearch}${iframeHash}`
-      )
-    }
-  }
-
   const handlePopState = () => {
     setLoaded(true)
   }
+
+  useEffect(
+    function init() {
+      checkPricingVersion()
+      startLoading()
+      emitter.on('localesChanged', updateChildLocale)
+      setLoaded(true)
+      window.addEventListener('message', handleIframeMessage)
+      window.addEventListener('popstate', handlePopState)
+
+      return () => {
+        window.removeEventListener('message', handleIframeMessage)
+        window.removeEventListener('popstate', handlePopState)
+        emitter.off('localesChanged', updateChildLocale)
+      }
+    },
+    [emitter, handleIframeMessage, startLoading]
+  )
 
   const hash = loaded ? window.location.hash : ''
   const search = loaded ? window.location.search || '' : ''
@@ -128,10 +142,10 @@ export default function HookedIframe(props) {
     const isDevWorkspace = workspace && workspace !== 'master'
     const environment = isDevWorkspace ? `${workspace}--` : ''
     const host = `${account}.myvtex.com/admin-proxy/`
-    const source = `${props.params.slug}${patchedSearch}${hash}`
+    const source = `${props?.params?.slug}${patchedSearch}${hash}`
 
     return `https://${environment}${host}${source}`
-  }, [account, hash, patchedSearch, props.params.slug, workspace])
+  }, [account, hash, patchedSearch, props?.params?.slug, workspace])
 
   return (
     <Box
@@ -139,7 +153,7 @@ export default function HookedIframe(props) {
         overflow: 'scroll',
       }}
     >
-      <LegacyHeader search={iframeQuery} slug={props.slug} />
+      <LegacyHeader search={iframeQuery} />
       {loaded ? (
         <iframe
           title="Legacy iframe container"
@@ -166,5 +180,3 @@ export default function HookedIframe(props) {
     </Box>
   )
 }
-
-HookedIframe.propTypes = propTypes

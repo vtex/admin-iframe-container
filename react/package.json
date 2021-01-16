@@ -5,20 +5,28 @@
     "test": "jest"
   },
   "dependencies": {
-    "@vtex/admin-ui": "^0.68.2",
-    "@vtex/admin-ui-icons": "^0.5.3",
+    "@vtex/admin-ui": "^0.72.0",
+    "@vtex/admin-ui-icons": "^0.6.1",
     "axios": "^0.18.1",
     "classnames": "^2.2.5",
     "js-cookie": "^2.2.0",
     "prop-types": "^15.5.10",
     "ramda": "^0.25.0",
-    "react-intl": "^2.7.2"
+    "react-intl": "^5.10.16"
   },
   "devDependencies": {
-    "apollo-client-preset": "^1.0.8",
-    "babel": "^6.23.0",
+    "@types/js-cookie": "^2.2.6",
+    "@types/classnames": "^2.2.9",
+    "@types/jest": "^25.1.2",
+    "@types/node": "^13.7.0",
+    "@types/ramda": "^0.26.9",
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-intl": "^3.0.0",
+    "tslint": "^5.14.0",
     "react-dom": "^16.8.0",
-    "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.126.4/public/@types/vtex.render-runtime",
-    "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.134.0/public/@types/vtex.styleguide"
+    "typescript": "3.9.7",
+    "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.126.6/public/@types/vtex.render-runtime",
+    "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.134.1/public/@types/vtex.styleguide"
   }
 }

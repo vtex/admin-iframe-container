@@ -1,35 +1,37 @@
 import React from 'react'
-// eslint-disable-next-line no-restricted-imports
-import { path } from 'ramda'
-import PropTypes from 'prop-types'
-import { injectIntl, intlShape } from 'react-intl'
+import { useIntl } from 'react-intl'
 import { Tabs, Tab, PageHeader } from 'vtex.styleguide'
 import { useRuntime } from 'vtex.render-runtime'
 
-import { getLegacyHeaderTabs } from './IframeUtils'
+import { getLegacyTabs } from '../util'
 
-function LegacyHeader(props) {
-  const { intl, search } = props
+interface Props {
+  search: string
+}
+
+export function LegacyHeader(props: Props) {
+  const { search } = props
   const { navigate } = useRuntime()
+  const { formatMessage } = useIntl()
 
-  const pathName = path(['location', 'pathname'], window)
-  const { tabs, title } = getLegacyHeaderTabs(pathName)
+  const pathName = window?.location?.pathname ?? ''
+  const { tabs, title } = getLegacyTabs(pathName)
 
   return (
     <div id="legacyHeader">
       {search ? (
         <PageHeader
-          linkLabel={intl.formatMessage({
+          linkLabel={formatMessage({
             id: 'appframe.navigation.legacyHeader.back',
           })}
           linkClick={() => {
             window.history.back()
             setTimeout(() => window.location.reload(), 10)
           }}
-          title={intl.formatMessage({ id: title })}
+          title={formatMessage({ id: title })}
         />
       ) : (
-        <PageHeader title={intl.formatMessage({ id: title })} />
+        <PageHeader title={formatMessage({ id: title })} />
       )}
       {tabs && tabs.length > 0 ? (
         <div className="mv3 mh7 nowrap">
@@ -44,7 +46,7 @@ function LegacyHeader(props) {
                     })
                   }
                   active={tab.active}
-                  label={intl.formatMessage({ id: tab.label })}
+                  label={formatMessage({ id: tab.label })}
                 />
               )
             })}
@@ -54,10 +56,3 @@ function LegacyHeader(props) {
     </div>
   )
 }
-
-LegacyHeader.propTypes = {
-  intl: intlShape.isRequired,
-  search: PropTypes.string,
-}
-
-export default injectIntl(LegacyHeader)

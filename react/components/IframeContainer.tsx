@@ -1,23 +1,23 @@
+import type { ReactNode } from 'react'
 import React from 'react'
-import PropTypes from 'prop-types'
 import { ThemeProvider } from '@vtex/admin-ui'
 
-import { DELOREAN_REGISTRY } from './IframeUtils'
-import IframeLegacy from './IframeLegacy'
-import Iframe from './Iframe'
+import { IframeLegacy } from './IframeLegacy'
+import { Iframe } from './Iframe'
+import { DELOREAN_REGISTRY } from '../util'
 
-const isLegacy = slug =>
+const isLegacy = (slug: string) =>
   String(slug).startsWith('Site/') ||
   String(slug) === 'a' ||
   String(slug).startsWith('site/')
 
-const isDeloreanAdmin = slug =>
+const isDeloreanAdmin = (slug: string) =>
   DELOREAN_REGISTRY.some(path => slug.startsWith(path))
 
-export default function IframeContainer(props) {
+export function IframeContainer(props: Props) {
   const { params, withoutLegacy, customHeightGap } = props
 
-  const slug = (params && params.slug) || ''
+  const slug = params?.slug ?? ''
 
   if (withoutLegacy) {
     // Cover just IO apps, ignore legacy apps.
@@ -46,9 +46,11 @@ export default function IframeContainer(props) {
   return <Iframe params={params} customHeightGap={customHeightGap} />
 }
 
-IframeContainer.propTypes = {
-  params: PropTypes.object,
-  withoutLegacy: PropTypes.bool,
-  children: PropTypes.node,
-  customHeightGap: PropTypes.string,
+interface Props {
+  params?: {
+    slug: string
+  }
+  withoutLegacy?: boolean
+  children?: ReactNode
+  customHeightGap?: string | number
 }

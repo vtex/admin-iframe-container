@@ -1,100 +1,9 @@
 /* eslint-disable no-fallthrough */
-/* eslint-disable vtex/prefer-early-return */
-import PropTypes from 'prop-types'
-import Cookies from 'js-cookie'
-import axios from 'axios'
+import { isPricingV2Active } from '.'
 
-let isPricingV2Active =
-  (window &&
-    window.localStorage &&
-    window.localStorage.getItem('routePriceSheetFromS3')) ||
-  null
-
-const getEnv = () => Cookies.get('vtex-commerce-env') || 'stable'
-
-export const stopLoading = () =>
-  window.postMessage({ action: { type: 'STOP_LOADING' } }, '*')
-export const startLoading = () =>
-  window.postMessage({ action: { type: 'START_LOADING' } }, '*')
-
-export async function checkPricingVersion() {
-  // isPricingV2Active oneOf[true,false,null]
-  // true => pricing v2 (hide the sku price table)
-  // false => pricing v1 (should have sku price table on legacy tabs)
-  // null => request failed or localStorage is empty
-  if (isPricingV2Active === null) {
-    const res = await axios('/api/pricing/pvt/api-configuration')
-
-    isPricingV2Active = (res.data && res.data.routePriceSheetFromS3) || null
-    localStorage.setItem('routePriceSheetFromS3', isPricingV2Active)
-  }
-}
-
-export function componentDidMount() {
-  const { emitter } = this.context
-
-  startLoading()
-  emitter.on('localesChanged', this.updateChildLocale)
-  this.setState({ loaded: true })
-}
-
-export function componentWillUnmount() {
-  const { emitter } = this.context
-
-  emitter.off('localesChanged', this.updateChildLocale)
-}
-
-const DELOREAN_REGISTRY = [
-  'billing',
-  'bridge',
-  'checkout',
-  'creditcontrol',
-  'fms',
-  'fms-picking',
-  'io-vtex-loader',
-  'license-manager',
-  'logistics',
-  'message-center',
-  'myaccount',
-  'payment-provider',
-  'pci-gateway',
-  'picking',
-  'portal',
-  'pricing',
-  'rnb',
-  'suggestions',
-  'suggestion',
-  'suggestions/catalog-mapping',
-  'suggestion/catalog-mapping',
-  'surveys',
-  'vtexid',
-  'vtable',
-]
-
-function handleRef(iframe) {
-  this.iframe = iframe
-}
-
-function updateChildLocale(locale) {
-  const message = { action: { type: 'LOCALE_SELECTED', payload: locale } }
-
-  this.iframe.contentWindow.postMessage(message, '*')
-}
-
-const contextTypes = {
-  account: PropTypes.string,
-  culture: PropTypes.object,
-  emitter: PropTypes.object,
-  navigate: PropTypes.func,
-}
-
-const propTypes = {
-  params: PropTypes.object,
-}
-
-const getLegacyHeaderTabs = pathName => {
-  let tabs
-  let title
+export function getLegacyTabs(pathName: string) {
+  let tabs: Array<{ label: string; path: string; active: boolean }>
+  let title: string
 
   switch (pathName.toLowerCase()) {
     // IMPORT & EXPORT SECTION
@@ -153,7 +62,7 @@ const getLegacyHeaderTabs = pathName => {
           ),
         },
       ]
-      if (!isPricingV2Active) {
+      if (!isPricingV2Active()) {
         tabs.push({
           label: 'appframe.navigation.catalog.importExport.skuPriceList',
           path: '/admin/Site/SkuTabelaValor.aspx',
@@ -373,14 +282,4 @@ const getLegacyHeaderTabs = pathName => {
   }
 
   return { tabs, title }
-}
-
-export {
-  getEnv,
-  updateChildLocale,
-  handleRef,
-  contextTypes,
-  propTypes,
-  getLegacyHeaderTabs,
-  DELOREAN_REGISTRY,
 }
