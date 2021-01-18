@@ -24,7 +24,7 @@ export function IframeLegacy(props: Props) {
   const { startLoading, stopLoading } = useLoading()
   const [height, setHeight] = useState(700)
   const [loaded, setLoaded] = useState(false)
-  const [iframeQuery] = useState('')
+
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const updateHeight = useCallback(value => {
@@ -58,34 +58,33 @@ export function IframeLegacy(props: Props) {
     iframeRef?.current?.contentWindow?.postMessage(message, '*')
   }
 
-  const updateBrowserHistory = (params: {
-    pathname: string
-    search: string
-    hash: string
-  }) => {
-    const {
-      pathname: iframePathname,
-      search: iframeSearch,
-      hash: iframeHash,
-    } = params
+  const updateBrowserHistory = useCallback(
+    (params: { pathname: string; search: string; hash: string }) => {
+      const {
+        pathname: iframePathname,
+        search: iframeSearch,
+        hash: iframeHash,
+      } = params
 
-    const { pathname, search = '', hash = '' } = window.location
-    const patchedIframeSearch = iframeSearch.replace(/(\?|&)env=beta/, '')
+      const { pathname, search = '', hash = '' } = window.location
+      const patchedIframeSearch = iframeSearch.replace(/(\?|&)env=beta/, '')
 
-    if (
-      iframePathname.replace('/iframe', '') !== pathname ||
-      search !== patchedIframeSearch ||
-      hash !== iframeHash
-    ) {
-      // @ts-expect-error browser error should be here
-      global.browserHistory.push(
-        `${iframePathname.replace(
-          'admin-proxy',
-          'admin'
-        )}${patchedIframeSearch}${iframeHash}`
-      )
-    }
-  }
+      if (
+        iframePathname.replace('/iframe', '') !== pathname ||
+        search !== patchedIframeSearch ||
+        hash !== iframeHash
+      ) {
+        // @ts-expect-error browser error should be here
+        global.browserHistory.push(
+          `${iframePathname.replace(
+            'admin-proxy',
+            'admin'
+          )}${patchedIframeSearch}${iframeHash}`
+        )
+      }
+    },
+    []
+  )
 
   const handleIframeMessage = React.useCallback(
     event => {
@@ -101,7 +100,7 @@ export function IframeLegacy(props: Props) {
         updateBrowserHistory(event.data)
       }
     },
-    [updateHeight]
+    [updateHeight, updateBrowserHistory]
   )
 
   const handlePopState = () => {
@@ -153,7 +152,7 @@ export function IframeLegacy(props: Props) {
         overflow: 'scroll',
       }}
     >
-      <LegacyHeader search={iframeQuery} />
+      <LegacyHeader hasBackLink={false} />
       {loaded ? (
         <iframe
           title="Legacy iframe container"

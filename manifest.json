@@ -9,7 +9,6 @@
   "categories": ["admin"],
   "settingsSchema": {},
   "dependencies": {
-    "vtex.styleguide": "9.x",
     "vtex.render-runtime": "8.x"
   },
   "builders": {

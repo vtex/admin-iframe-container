@@ -15,7 +15,7 @@ export function useTabs(props: TabsProps): FlexProps {
   const { styleOverrides, ...rest } = props
 
   const theme: StyleProp = {
-    border: 'divider-bottom',
+    height: 52,
   }
 
   return {

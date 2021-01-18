@@ -25,6 +25,17 @@ export function useTab(props: TabProps): ButtonProps {
   const theme: StyleProp = {
     borderRadius: 'none',
     textTransform: 'uppercase',
+    display: 'flex',
+    height: 'full',
+    color: 'dark.secondary',
+    fontSettings: 'medium',
+    ':hover': {
+      bg: 'transparent',
+      color: 'blue',
+    },
+    ':active': {
+      bg: 'transparent',
+    },
     ...activeStyle,
   }
 

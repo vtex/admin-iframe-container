@@ -1,41 +1,42 @@
 import React from 'react'
 import { useIntl, FormattedMessage } from 'react-intl'
-import { PageHeader } from 'vtex.styleguide'
 import { useRuntime } from 'vtex.render-runtime'
-import { Box } from '@vtex/admin-ui'
 
-import { Tabs, Tab } from '../core'
+import { Tabs, Tab, PageHeader, Navbar } from '../core'
 import { getLegacyTabs } from '../util'
 
 interface Props {
-  search: string
+  hasBackLink: boolean
 }
 
 export function LegacyHeader(props: Props) {
-  const { search } = props
+  const { hasBackLink } = props
   const { navigate } = useRuntime()
   const { formatMessage } = useIntl()
 
   const pathName = window?.location?.pathname ?? ''
   const { tabs, title } = getLegacyTabs(pathName)
+  const withTabs = tabs && tabs.length > 0
 
   return (
-    <Box styles={{ marginBottom: 2 }} id="legacyHeader">
-      {search ? (
-        <PageHeader
-          linkLabel={formatMessage({
-            id: 'appframe.navigation.legacyHeader.back',
-          })}
-          linkClick={() => {
-            window.history.back()
-            setTimeout(() => window.location.reload(), 10)
-          }}
-          title={formatMessage({ id: title })}
-        />
-      ) : (
-        <PageHeader title={formatMessage({ id: title })} />
-      )}
-      {tabs && tabs.length > 0 ? (
+    <PageHeader id="legacyHeader" size={withTabs ? 'large' : 'regular'}>
+      <Navbar
+        title={formatMessage({ id: title })}
+        link={
+          hasBackLink
+            ? {
+                label: formatMessage({
+                  id: 'appframe.navigation.legacyHeader.back',
+                }),
+                onClick: () => {
+                  window.history.back()
+                  // setTimeout(() => window.location.reload(), 10)
+                },
+              }
+            : undefined
+        }
+      />
+      {withTabs ? (
         <Tabs>
           {tabs.map((tab, index) => {
             return (
@@ -54,6 +55,6 @@ export function LegacyHeader(props: Props) {
           })}
         </Tabs>
       ) : null}
-    </Box>
+    </PageHeader>
   )
 }
