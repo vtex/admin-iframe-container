@@ -4,7 +4,7 @@ import { useRuntime } from 'vtex.render-runtime'
 
 import { LegacyHeader } from './LegacyHeader'
 import { getEnv, checkPricingVersion } from '../util'
-import { useLoading } from '../hooks/useLoading'
+import { useLoading } from '../hooks'
 
 interface Props {
   params?: {

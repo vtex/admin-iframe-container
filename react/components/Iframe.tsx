@@ -2,7 +2,8 @@ import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useRuntime } from 'vtex.render-runtime'
 import { cn } from '@vtex/admin-ui'
 
-import { stopLoading, startLoading, getEnv } from '../util'
+import { getEnv } from '../util'
+import { useLoading } from '../hooks'
 
 interface Props {
   isDeloreanAdmin?: boolean
@@ -14,16 +15,17 @@ interface Props {
 
 export function Iframe(props: Props) {
   const { isDeloreanAdmin, params, customHeightGap = '3em' } = props
-  const {
-    culture: { locale },
-    // @ts-expect-error emitter is not available on type, but exists on RenderContext
-    emitter,
-  } = useRuntime()
 
   const [loaded, setLoaded] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const src = useRef<string>('')
   const mounted = useRef<boolean>()
+  const { startLoading, stopLoading } = useLoading()
+  const {
+    culture: { locale },
+    // @ts-expect-error emitter is not available on type, but exists on RenderContext
+    emitter,
+  } = useRuntime()
 
   const updateChildLocale = useCallback(() => {
     const message = { action: { type: 'LOCALE_SELECTED', locale } }
@@ -198,7 +200,14 @@ export function Iframe(props: Props) {
         window.removeEventListener('popstate', updateIframeHistory)
       }
     },
-    [buildSrc, emitter, isDeloreanAdmin, updateChildLocale, updateIframeHistory]
+    [
+      buildSrc,
+      emitter,
+      isDeloreanAdmin,
+      updateChildLocale,
+      updateIframeHistory,
+      startLoading,
+    ]
   )
 
   if (params?.slug?.startsWith(isDeloreanAdmin ? 'iframe/' : 'app/')) {
