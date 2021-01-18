@@ -15,7 +15,7 @@ vtex install vtex.admin-iframe-container@2.x
 
 > If you don't have [`admin-proxy`](https://github.com/vtex/admin-proxy) installed, you must do so with `vtex install admin-proxy`.
 
-You just need to to make the changes and link the add with `vtex link`.
+You just need to to make the changes and link the app with `vtex link`.
 
 ### 🌎 Important peer apps
 
