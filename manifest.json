@@ -9,7 +9,8 @@
   "categories": ["admin"],
   "settingsSchema": {},
   "dependencies": {
-    "vtex.render-runtime": "8.x"
+    "vtex.render-runtime": "8.x",
+    "vtex.admin-proxy": "0.x"
   },
   "builders": {
     "react": "3.x"

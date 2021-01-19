@@ -4,16 +4,13 @@ Iframe that loads every VTEX admin application.
 
 ## 📦 Instaling
 
-This a VTEX IO app that works in conjuntion with [`admin-proxy`](https://github.com/vtex/admin-proxy), so you need to install both:
+This a VTEX IO app you just have to install it with:
 
 ```sh
-vtex install vtex.admin-proxy
 vtex install vtex.admin-iframe-container@2.x
 ```
 
 ## 👨🏾‍💻 Development
-
-> If you don't have [`admin-proxy`](https://github.com/vtex/admin-proxy) installed, you must do so with `vtex install admin-proxy`.
 
 You just need to to make the changes and link the app with `vtex link`.
 
