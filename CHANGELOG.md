@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.0.0] - 2021-01-19
+
+### Added
+
+- `@vtex/admin-ui` library.
+- `@vtex/admin-ui-icons` library.
+- `core` components that uses admin-ui.
+
+### Removed
+
+- `vtex.styleguide` in favor of `@vtex/admin-ui`.
+
+### Changed
+
+- Refactor all components to `typescript`.
+- Links from `vtexcommerce` to `admin-proxy`.
+
 ## [1.1.0] - 2020-11-10
 
 ### Added
@@ -19,7 +36,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Rollback v1.0.9
 
 ## [1.0.9] - 2019-09-26
+
 ### Added
+
 - Prevent to show a black page while iframe is in loading.
 - Force reload when lost session.
 
@@ -49,7 +68,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 
- - Remove myuser old admin from the legacy admins whitelist
+- Remove myuser old admin from the legacy admins whitelist
 
 ## [1.0.2] - 2019-07-17
 

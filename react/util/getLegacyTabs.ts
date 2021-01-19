@@ -1,95 +1,24 @@
-import PropTypes from 'prop-types'
-import Cookies from 'js-cookie'
-import axios from 'axios'
-let isPricingV2Active = window && window.localStorage && window.localStorage.getItem('routePriceSheetFromS3') || null
+/* eslint-disable no-fallthrough */
+import { isPricingV2Active } from '.'
 
-const getEnv = () => Cookies.get('vtex-commerce-env') || 'stable'
+export function getLegacyTabs(pathName: string) {
+  let tabs: Array<{ label: string; path: string; active: boolean }>
+  let title: string
 
-const startLoading = () => window.postMessage({ action: { type: 'START_LOADING' } }, '*')
-
-const stopLoading = () => window.postMessage({ action: { type: 'STOP_LOADING' } }, '*')
-
-const checkPricingVersion = async () => {
-  // isPricingV2Active oneOf[true,false,null]
-  // true => pricing v2 (hide the sku price table)
-  // false => pricing v1 (should have sku price table on legacy tabs)
-  // null => request failed or localStorage is empty
-  if (isPricingV2Active === null) {
-    const res = await axios('/api/pricing/pvt/api-configuration')
-    isPricingV2Active = res.data && res.data.routePriceSheetFromS3 || null
-    localStorage.setItem('routePriceSheetFromS3', isPricingV2Active)
-  }
-}
-
-const DELOREAN_REGISTRY = [
-  "billing",
-  "bridge",
-  "checkout",
-  "creditcontrol",
-  "fms",
-  "fms-picking",
-  "io-vtex-loader",
-  "license-manager",
-  "logistics",
-  "message-center",
-  "myaccount",
-  "payment-provider",
-  "pci-gateway",
-  "picking",
-  "portal",
-  "pricing",
-  "rnb",
-  "suggestions",
-  "suggestion",
-  "suggestions/catalog-mapping",
-  "suggestion/catalog-mapping",
-  "surveys",
-  "vtexid",
-  "vtable",
-]
-
-function componentDidMount() {
-  const { emitter } = this.context
-  startLoading()
-  emitter.on('localesChanged', this.updateChildLocale)
-  this.setState({ loaded: true })
-}
-
-function componentWillUnmount() {
-  const { emitter } = this.context
-  emitter.off('localesChanged', this.updateChildLocale)
-}
-
-function handleRef(iframe) {
-  this.iframe = iframe
-}
-
-function updateChildLocale(locale) {
-  const message = { action: { type: 'LOCALE_SELECTED', payload: locale } }
-  this.iframe.contentWindow.postMessage(message, '*')
-}
-
-const contextTypes = {
-  account: PropTypes.string,
-  culture: PropTypes.object,
-  emitter: PropTypes.object,
-  navigate: PropTypes.func,
-}
-
-const propTypes = {
-  params: PropTypes.object,
-}
-
-const getLegacyHeaderTabs = pathName => {
-  let tabs, title
-  switch(pathName.toLowerCase()) {
+  switch (pathName.toLowerCase()) {
     // IMPORT & EXPORT SECTION
     case '/admin/site/relatorio_skus.aspx':
+
     case '/admin/site/produtoexportacaoimportacaoespecificacaov2.aspx':
+
     case '/admin/site/produtoexportacaoimportacaoespecificacaoskuv2.aspx':
+
     case '/admin/site/skutabelavalor.aspx':
+
     case '/admin/site/gerarimagens.aspx':
+
     case '/admin/site/produtoimagemexportacao.aspx':
+
     case '/admin/site/produtoexportacaoimportacaoavaliacao.aspx':
       title = 'appframe.navigation.catalog.importExport'
       tabs = [
@@ -99,14 +28,20 @@ const getLegacyHeaderTabs = pathName => {
           active: pathName.includes('Relatorio_Skus.aspx'),
         },
         {
-          label: 'appframe.navigation.catalog.importExport.productSpecification',
+          label:
+            'appframe.navigation.catalog.importExport.productSpecification',
           path: '/admin/Site/ProdutoExportacaoImportacaoEspecificacaoV2.aspx',
-          active: pathName.includes('ProdutoExportacaoImportacaoEspecificacaoV2.aspx'),
+          active: pathName.includes(
+            'ProdutoExportacaoImportacaoEspecificacaoV2.aspx'
+          ),
         },
         {
           label: 'appframe.navigation.catalog.importExport.skuSpecification',
-          path: '/admin/Site/ProdutoExportacaoImportacaoEspecificacaoSKUV2.aspx',
-          active: pathName.includes('ProdutoExportacaoImportacaoEspecificacaoSKUV2.aspx'),
+          path:
+            '/admin/Site/ProdutoExportacaoImportacaoEspecificacaoSKUV2.aspx',
+          active: pathName.includes(
+            'ProdutoExportacaoImportacaoEspecificacaoSKUV2.aspx'
+          ),
         },
         {
           label: 'appframe.navigation.catalog.importExport.importImages',
@@ -119,24 +54,33 @@ const getLegacyHeaderTabs = pathName => {
           active: pathName.includes('ProdutoImagemExportacao.aspx'),
         },
         {
-          label: 'appframe.navigation.catalog.importExport.exportProductreviews',
+          label:
+            'appframe.navigation.catalog.importExport.exportProductreviews',
           path: '/admin/Site/ProdutoExportacaoImportacaoAvaliacao.aspx',
-          active: pathName.includes('ProdutoExportacaoImportacaoAvaliacao.aspx'),
+          active: pathName.includes(
+            'ProdutoExportacaoImportacaoAvaliacao.aspx'
+          ),
         },
       ]
-      if (!isPricingV2Active) {
+      if (!isPricingV2Active()) {
         tabs.push({
           label: 'appframe.navigation.catalog.importExport.skuPriceList',
           path: '/admin/Site/SkuTabelaValor.aspx',
           active: pathName.includes('SkuTabelaValor.aspx'),
         })
       }
-    break
+
+      break
+
     // SETTINGS SECTION
     case '/admin/site/configform.aspx':
+
     case '/admin/site/configseocontents.aspx':
+
     case '/admin/site/textosite.aspx':
+
     case '/admin/site/tipoarquivo.aspx':
+
     case '/admin/site/geographicregion.aspx':
       title = 'appframe.navigation.cms.settings'
       tabs = [
@@ -166,14 +110,21 @@ const getLegacyHeaderTabs = pathName => {
           active: pathName.includes('GeographicRegion.aspx'),
         },
       ]
-    break
+      break
+
     // REPORTS SECTION
     case '/admin/site/relatorioindexacao.aspx':
+
     case '/admin/site/relatorio_seguranca.aspx':
+
     case '/admin/site/giftlist.aspx':
+
     case '/admin/site/relatorio_avisemesku.aspx':
+
     case '/admin/site/relatorionews.aspx':
+
     case '/admin/site/resenha.aspx':
+
     case '/admin/site/linksrelatorios.aspx':
       title = 'appframe.navigation.catalog.reports'
       tabs = [
@@ -213,11 +164,15 @@ const getLegacyHeaderTabs = pathName => {
           active: pathName.includes('LinksRelatorios.aspx'),
         },
       ]
-    break
+      break
+
     // ATTACHMENT SECTION
     case '/admin/site/anexo.aspx':
+
     case '/admin/site/skuservicotipo.aspx':
+
     case '/admin/site/skuservicovalor.aspx':
+
     case '/admin/site/skuvincularvalorservico.aspx':
       title = 'appframe.navigation.catalog.attachments'
       tabs = [
@@ -242,84 +197,89 @@ const getLegacyHeaderTabs = pathName => {
           active: pathName.includes('SkuVincularValorServico.aspx'),
         },
       ]
-    break
+      break
+
     case '/admin/site/giftlisttype.aspx':
       title = 'appframe.navigation.cms.settings.listTypes'
       tabs = []
-    break
+      break
+
     case '/admin/site/categories.aspx':
+
     case '/admin/site/categoriaform.aspx':
       title = 'appframe.navigation.catalog.categories'
       tabs = []
-    break
+      break
+
     case '/admin/site/marca.aspx':
+
     case '/admin/site/marcaform.aspx':
       title = 'appframe.navigation.catalog.brands'
       tabs = []
-    break
+      break
+
     case '/admin/site/store.aspx':
       title = 'appframe.navigation.channel'
       tabs = []
-    break
+      break
+
     case '/admin/site/vale.aspx':
       title = 'appframe.navigation.vouchers'
       tabs = []
-    break
+      break
+
     case '/admin/site/seller.aspx':
       title = 'appframe.navigation.sellerManagement.title'
       tabs = []
-    break
+      break
+
     case '/admin/site/skuseller.aspx':
       title = 'appframe.navigation.SKUbinding'
       tabs = []
-    break
+      break
+
     case '/admin/site/produto.aspx':
       title = 'appframe.navigation.catalog.products'
       tabs = []
-    break
+      break
+
     case '/admin/site/xml.aspx':
       title = 'appframe.navigation.catalog.xml'
       tabs = []
-    break
+      break
+
     case '/admin/site/skucondicaocomercial.aspx':
       title = 'appframe.navigation.catalog.commercialCondition'
       tabs = []
-    break
+      break
+
     case '/admin/site/fornecedor.aspx':
       title = 'appframe.navigation.catalog.suppliers'
       tabs = []
-    break
+      break
+
     case '/admin/site/skukit.aspx':
       title = 'appframe.navigation.catalog.sku-bundle'
       tabs = []
-    break
+      break
+
     case '/admin/site/skukitform.aspx':
       title = 'appframe.navigation.catalog.manage-sku-bundle'
       tabs = []
-    break
+      break
+
     case '/admin/a':
+
     case '/admin/a/':
       title = 'appframe.navigation.cms.pageHeader'
       tabs = []
-    break
+      break
+
     default:
       title = 'appframe.navigation.catalog.title'
       tabs = []
-    break
+      break
   }
-  return { tabs, title }
-}
 
-export {
-  stopLoading,
-  getEnv,
-  componentDidMount,
-  componentWillUnmount,
-  updateChildLocale,
-  handleRef,
-  contextTypes,
-  propTypes,
-  getLegacyHeaderTabs,
-  checkPricingVersion,
-  DELOREAN_REGISTRY,
+  return { tabs, title }
 }

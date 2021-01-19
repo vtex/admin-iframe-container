@@ -1,0 +1,10 @@
+{
+  "extends": "vtex-react/io",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "no-use-before-define": "off"
+  }
+}
