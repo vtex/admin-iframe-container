@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- `@vtex/admin-ui` to version `0.73.0`.
+
+### Removed
+
+- Unused backlink on `Navbar`.
+
 ## [2.0.0] - 2021-01-19
 
 ### Added

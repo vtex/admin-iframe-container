@@ -1,6 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useRuntime } from 'vtex.render-runtime'
-import { cn } from '@vtex/admin-ui'
+import { useSystem } from '@vtex/admin-ui'
 
 import { getEnv } from '../util'
 import { useLoading } from '../hooks'
@@ -21,6 +21,7 @@ export function Iframe(props: Props) {
   const src = useRef<string>('')
   const mounted = useRef<boolean>()
   const { startLoading, stopLoading } = useLoading()
+  const { cn } = useSystem()
   const {
     culture: { locale },
     // @ts-expect-error emitter is not available on type, but exists on RenderContext

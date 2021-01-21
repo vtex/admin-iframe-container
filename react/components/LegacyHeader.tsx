@@ -5,12 +5,7 @@ import { useRuntime } from 'vtex.render-runtime'
 import { Tabs, Tab, PageHeader, Navbar } from '../core'
 import { getLegacyTabs } from '../util'
 
-interface Props {
-  hasBackLink: boolean
-}
-
-export function LegacyHeader(props: Props) {
-  const { hasBackLink } = props
+export function LegacyHeader() {
   const { navigate } = useRuntime()
   const { formatMessage } = useIntl()
 
@@ -20,22 +15,7 @@ export function LegacyHeader(props: Props) {
 
   return (
     <PageHeader id="legacyHeader" size={withTabs ? 'large' : 'regular'}>
-      <Navbar
-        title={formatMessage({ id: title })}
-        link={
-          hasBackLink
-            ? {
-                label: formatMessage({
-                  id: 'appframe.navigation.legacyHeader.back',
-                }),
-                onClick: () => {
-                  window.history.back()
-                  // setTimeout(() => window.location.reload(), 10)
-                },
-              }
-            : undefined
-        }
-      />
+      <Navbar title={formatMessage({ id: title })} />
       {withTabs ? (
         <Tabs>
           {tabs.map((tab, index) => {

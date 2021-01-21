@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { Box, cn, Skeleton } from '@vtex/admin-ui'
+import { Box, Skeleton, useSystem } from '@vtex/admin-ui'
 import { useRuntime } from 'vtex.render-runtime'
 
 import { LegacyHeader } from './LegacyHeader'
@@ -21,6 +21,7 @@ export function IframeLegacy(props: Props) {
     emitter,
   } = useRuntime()
 
+  const { cn } = useSystem()
   const { startLoading, stopLoading } = useLoading()
   const [height, setHeight] = useState(700)
   const [loaded, setLoaded] = useState(false)
@@ -152,7 +153,7 @@ export function IframeLegacy(props: Props) {
         overflow: 'scroll',
       }}
     >
-      <LegacyHeader hasBackLink={false} />
+      <LegacyHeader />
       {loaded ? (
         <iframe
           title="Legacy iframe container"

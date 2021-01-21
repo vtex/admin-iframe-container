@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import React from 'react'
-import { ThemeProvider } from '@vtex/admin-ui'
 
+import { ThemeProvider } from '../core'
 import { IframeLegacy } from './IframeLegacy'
 import { Iframe } from './Iframe'
 import { DELOREAN_REGISTRY } from '../util'
@@ -21,7 +21,11 @@ export function IframeContainer(props: Props) {
 
   if (withoutLegacy) {
     // Cover just IO apps, ignore legacy apps.
-    return <Iframe params={params} />
+    return (
+      <ThemeProvider>
+        <Iframe params={params} />
+      </ThemeProvider>
+    )
   }
 
   if (isLegacy(slug)) {
@@ -37,13 +41,21 @@ export function IframeContainer(props: Props) {
   if (isDeloreanAdmin(slug)) {
     // This is covering "Legacy" admins versioned by Delorean
     // those were rendered by concierge, but now render delivers them as statics
-    return <Iframe params={params} isDeloreanAdmin />
+    return (
+      <ThemeProvider>
+        <Iframe params={params} isDeloreanAdmin />
+      </ThemeProvider>
+    )
   }
 
   // This covers the rest of cases, which are IO apps that are admins
   // with "/admin/app" routes and fallback to 404 slugs
   // The customHeightGap is only used on the Admin V4 (see vtex/admin)
-  return <Iframe params={params} customHeightGap={customHeightGap} />
+  return (
+    <ThemeProvider>
+      <Iframe params={params} customHeightGap={customHeightGap} />
+    </ThemeProvider>
+  )
 }
 
 interface Props {
