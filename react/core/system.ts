@@ -8,10 +8,10 @@ import type { PropsWithChildren } from 'react'
 export const system = createSystem('iframe-container')
 
 export const ThemeProvider = (props: PropsWithChildren<unknown>) =>
-  jsxs({
-    component: RootProvider,
-    props: {
+  jsxs(
+    RootProvider,
+    {
       system,
-      ...props,
     },
-  })
+    props.children
+  )

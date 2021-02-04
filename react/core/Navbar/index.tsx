@@ -1,15 +1,8 @@
 import type { ReactNode } from 'react'
 import type { FlexProps, StyleProp } from '@vtex/admin-ui'
-import { Heading, jsxs, Flex, merge } from '@vtex/admin-ui'
+import { Heading, jsxs, Flex, merge, createComponent } from '@vtex/admin-ui'
 
-export function Navbar(props: NavbarProps) {
-  const navbarProps = useNavbar(props)
-
-  return jsxs({
-    component: Flex,
-    props: navbarProps,
-  })
-}
+export const Navbar = createComponent(Flex, useNavbar)
 
 export function useNavbar(props: NavbarProps): FlexProps {
   const { styleOverrides, children, title, ...rest } = props
@@ -21,15 +14,15 @@ export function useNavbar(props: NavbarProps): FlexProps {
 
   return {
     styles: merge(theme, styleOverrides),
-    children: jsxs({
-      component: Heading,
-      props: {
+    children: jsxs(
+      Heading,
+      {
         styleOverrides: {
           fontSettings: 'medium',
         },
       },
-      children: title,
-    }),
+      title
+    ),
     align: 'center',
     ...rest,
   }
