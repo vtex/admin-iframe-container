@@ -5,10 +5,9 @@ import { jsxs, Flex, merge } from '@vtex/admin-ui'
 export function PageHeader(props: PageHeaderProps) {
   const pageHeaderProps = usePageHeader(props)
 
-  return jsxs({
+  return jsxs(Flex, {
     element: 'header',
-    component: Flex,
-    props: pageHeaderProps,
+    ...pageHeaderProps,
   })
 }
 

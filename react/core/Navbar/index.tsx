@@ -6,10 +6,7 @@ import { IconArrow } from '@vtex/admin-ui-icons'
 export function Navbar(props: NavbarProps) {
   const navbarProps = useNavbar(props)
 
-  return jsxs({
-    component: Flex,
-    props: navbarProps,
-  })
+  return jsxs(Flex, navbarProps)
 }
 
 export function useNavbar(props: NavbarProps): FlexProps {
@@ -24,30 +21,24 @@ export function useNavbar(props: NavbarProps): FlexProps {
     styles: merge(theme, styleOverrides),
     children: [
       link
-        ? jsxs({
-            component: Button,
-            props: {
-              variant: 'tertiary',
-              onClick: () => link.onClick,
-              icon: jsxs({
-                component: IconArrow,
-                props: {
-                  direction: 'left',
-                  title: link.label,
-                },
-              }),
-            },
+        ? jsxs(Button, {
+            variant: 'tertiary',
+            onClick: () => link.onClick,
+            icon: jsxs(IconArrow, {
+              direction: 'left',
+              title: link.label,
+            }),
           })
         : null,
-      jsxs({
-        component: Heading,
-        props: {
+      jsxs(
+        Heading,
+        {
           styleOverrides: {
             fontSettings: 'medium',
           },
         },
-        children: title,
-      }),
+        title
+      ),
     ],
     align: 'center',
     ...rest,

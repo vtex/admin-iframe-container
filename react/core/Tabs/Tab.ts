@@ -4,10 +4,7 @@ import { jsxs, Button, merge } from '@vtex/admin-ui'
 export function Tab(props: TabProps) {
   const tabProps = useTab(props)
 
-  return jsxs({
-    component: Button,
-    props: tabProps,
-  })
+  return jsxs(Button, tabProps)
 }
 
 export function useTab(props: TabProps): ButtonProps {

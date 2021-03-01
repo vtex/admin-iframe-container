@@ -5,10 +5,7 @@ import { jsxs, Flex, merge } from '@vtex/admin-ui'
 export function Tabs(props: TabsProps) {
   const tabsProps = useTabs(props)
 
-  return jsxs({
-    component: Flex,
-    props: tabsProps,
-  })
+  return jsxs(Flex, tabsProps)
 }
 
 export function useTabs(props: TabsProps): FlexProps {

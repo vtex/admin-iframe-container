@@ -76,6 +76,24 @@
     source-map "^0.5.7"
     stylis "^4.0.3"
 
+"@emotion/babel-plugin@^11.2.0":
+  version "11.2.0"
+  resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.2.0.tgz#f25c6df8ec045dad5ae6ca63df0791673b98c920"
+  integrity sha512-lsnQBnl3l4wu/FJoyHnYRpHJeIPNkOBMbtDUIXcO8luulwRKZXPvA10zd2eXVN6dABIWNX4E34en/jkejIg/yA==
+  dependencies:
+    "@babel/helper-module-imports" "^7.7.0"
+    "@babel/plugin-syntax-jsx" "^7.12.1"
+    "@babel/runtime" "^7.7.2"
+    "@emotion/hash" "^0.8.0"
+    "@emotion/memoize" "^0.7.5"
+    "@emotion/serialize" "^1.0.0"
+    babel-plugin-macros "^2.6.1"
+    convert-source-map "^1.5.0"
+    escape-string-regexp "^4.0.0"
+    find-root "^1.1.0"
+    source-map "^0.5.7"
+    stylis "^4.0.3"
+
 "@emotion/cache@^11.1.3":
   version "11.1.3"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-11.1.3.tgz#c7683a9484bcd38d5562f2b9947873cf66829afd"
@@ -87,7 +105,7 @@
     "@emotion/weak-memoize" "^0.2.5"
     stylis "^4.0.3"
 
-"@emotion/css@^11.0.0":
+"@emotion/css@^11.1.3":
   version "11.1.3"
   resolved "https://registry.yarnpkg.com/@emotion/css/-/css-11.1.3.tgz#9ed44478b19e5d281ccbbd46d74d123d59be793f"
   integrity sha512-RSQP59qtCNTf5NWD6xM08xsQdCZmVYnX/panPYvB6LQAPKQB6GL49Njf0EMbS3CyDtrlWsBcmqBtysFvfWT3rA==
@@ -110,13 +128,6 @@
   dependencies:
     "@emotion/memoize" "0.7.4"
 
-"@emotion/is-prop-valid@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-1.0.0.tgz#1dbe82e52a12c065d416a702e2d106e552cde5be"
-  integrity sha512-G5X0t7eR9pkhUvAY32QS3lToP9JyNF8It5CcmMvbWjmC9/Yq7IhevaKqxl+me2BKR93iTPiL/h3En1ZX/1G3PQ==
-  dependencies:
-    "@emotion/memoize" "^0.7.4"
-
 "@emotion/memoize@0.7.4":
   version "0.7.4"
   resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.7.4.tgz#19bf0f5af19149111c40d98bb0cf82119f5d9eeb"
@@ -131,6 +142,19 @@
   version "11.1.4"
   resolved "https://registry.yarnpkg.com/@emotion/react/-/react-11.1.4.tgz#ddee4247627ff7dd7d0c6ae52f1cfd6b420357d2"
   integrity sha512-9gkhrW8UjV4IGRnEe4/aGPkUxoGS23aD9Vu6JCGfEDyBYL+nGkkRBoMFGAzCT9qFdyUvQp4UUtErbKWxq/JS4A==
+  dependencies:
+    "@babel/runtime" "^7.7.2"
+    "@emotion/cache" "^11.1.3"
+    "@emotion/serialize" "^1.0.0"
+    "@emotion/sheet" "^1.0.1"
+    "@emotion/utils" "^1.0.0"
+    "@emotion/weak-memoize" "^0.2.5"
+    hoist-non-react-statics "^3.3.1"
+
+"@emotion/react@^11.1.5":
+  version "11.1.5"
+  resolved "https://registry.yarnpkg.com/@emotion/react/-/react-11.1.5.tgz#15e78f9822894cdc296e6f4e0688bac8120dfe66"
+  integrity sha512-xfnZ9NJEv9SU9K2sxXM06lzjK245xSeHRpUh67eARBm3PBHjjKIZlfWZ7UQvD0Obvw6ZKjlC79uHrlzFYpOB/Q==
   dependencies:
     "@babel/runtime" "^7.7.2"
     "@emotion/cache" "^11.1.3"
@@ -235,10 +259,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
-"@popperjs/core@^2.4.4":
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.6.0.tgz#f022195afdfc942e088ee2101285a1d31c7d727f"
-  integrity sha512-cPqjjzuFWNK3BSKLm0abspP0sp/IGOli4p5I5fKFAzdS8fvjdOwDCfZqAaIiXd9lPkOWi3SUUfZof3hEb7J/uw==
+"@popperjs/core@^2.5.4":
+  version "2.8.6"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.8.6.tgz#ad75ebe8dbecfa145af3c7e4d0ae98016458d005"
+  integrity sha512-1oXH2bAFXz9SttE1v/0Jp+2ZVePsPEAPGIuPKrmljWZcS3FPBEn2Q4WcANozZC0YiCjTWOF55k0g6rbSZS39ew==
 
 "@types/classnames@^2.2.9":
   version "2.2.11"
@@ -350,46 +374,73 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@vtex/admin-ui-icons@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@vtex/admin-ui-icons/-/admin-ui-icons-0.6.1.tgz#72055dbdd87b38f22afdf6c3bc51f85a63e14852"
-  integrity sha512-0Qh+BMP10HQ7SeCaDMYqy6HdjZ5W8U5VyCScna+qu1XTaxW0GDppAkHsd876ACvBgGI9PFu7r/jzj4OrV9BWBQ==
-
-"@vtex/admin-ui-system@^0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@vtex/admin-ui-system/-/admin-ui-system-0.8.0.tgz#57f4c8446ce51bd2dbb05dd5602b87005c741de3"
-  integrity sha512-bvvaLzdrf4YyA8vmq6+OToldxbOHs0u+eSm329+OH4RWVn8MKLMKdyEZJOiS2coM/g8JgcYE1tCCkjWstoEdUA==
+"@vtex/admin-core@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@vtex/admin-core/-/admin-core-0.7.0.tgz#6d9265edec7958d4a0471ffeeedf61ab2040fee0"
+  integrity sha512-h9mEwWZKvtO+/Owkss6keqVGkYs8kL7kFVOtVW4CfC44mM4RPGnPRFfR74TNRbM9O3620SmJRkL27Nefag0aNA==
   dependencies:
-    "@emotion/css" "^11.0.0"
-    "@emotion/is-prop-valid" "^1.0.0"
-    "@emotion/react" "^11.1.4"
+    "@vtex/admin-ui-system" "^0.14.0"
+    "@vtex/admin-ui-theme" "^0.19.0"
+    deepmerge "^4.2.2"
+    focus-visible "^5.1.0"
+    tiny-invariant "^1.1.0"
+    tiny-warning "^1.0.3"
+
+"@vtex/admin-jsxs@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@vtex/admin-jsxs/-/admin-jsxs-0.1.1.tgz#5c5140725759848054c8899d8a7385e0953b492a"
+  integrity sha512-KANFcuhgm7jtGRed9BtMTutbrzRPnE+jb+lbEhLhDihwieK1DyK6MXm12rNwEGYTy/TxHJGA/d0SVOI0L6/zsw==
+  dependencies:
+    tiny-invariant "^1.1.0"
+    tiny-warning "^1.0.3"
+
+"@vtex/admin-styles@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@vtex/admin-styles/-/admin-styles-0.2.0.tgz#c6381e566f3991e759009ab2544c6fbdd82ca7b7"
+  integrity sha512-uoNl4cTT90Ir9FzpBv7fB3ZmBcsA9QpgDyhNksTVUkCiNYOwYNbFMlmwYPEEaWE3Vn4WWsRgeY1jW3clUVUCKw==
+  dependencies:
+    csstype "^3.0.5"
+    lodash.get "^4.4.2"
+    lodash.merge "^4.6.2"
+    tiny-warning "^1.0.3"
+
+"@vtex/admin-ui-icons@^0.8.12":
+  version "0.8.12"
+  resolved "https://registry.yarnpkg.com/@vtex/admin-ui-icons/-/admin-ui-icons-0.8.12.tgz#03ba02a89188729a20d908ff3d2c1a87fd6d7ee7"
+  integrity sha512-kqXFE21dejJmIDHHby2dLmn1Np2UX/+QgK2CBbfi2bUwAeYsdoXd2r9LHKd1r+/TwwcGn7YGGW7Rh3wdzo7aOw==
+
+"@vtex/admin-ui-system@^0.14.0":
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/@vtex/admin-ui-system/-/admin-ui-system-0.14.0.tgz#c41d415894f516952e4af291cf9d67dfed57f924"
+  integrity sha512-+5OJASJYHXzqY5v5uLg9yu6hVhsRCvXCPEOdxRS6fBI9hZno7HLkFu9Ss+1ILUBvl+l/8pd3ZFEq42tvdHYlsg==
+  dependencies:
+    "@vtex/admin-jsxs" "^0.1.1"
+    "@vtex/admin-styles" "^0.2.0"
     csstype "^3.0.5"
     deepmerge "^4.2.2"
     focus-visible "^5.1.0"
-    lodash.get "^4.4.2"
-    lodash.merge "^4.6.2"
     lodash.omit "^4.5.0"
     lodash.pick "^4.4.0"
     polished "^4.0.5"
     tiny-invariant "^1.1.0"
     tiny-warning "^1.0.3"
 
-"@vtex/admin-ui-theme@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@vtex/admin-ui-theme/-/admin-ui-theme-0.12.0.tgz#51f3466ff2737a816f9ba8212fcb0c7712aa01f0"
-  integrity sha512-0O/pDhiJ6L2OpC9xU5z/03NAwj9HpvsHKf8AkttH1XMKArhHi1IYrPxelPHdFDgsSde+RFhcVee8ddnb6OpLVQ==
+"@vtex/admin-ui-theme@^0.19.0":
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/@vtex/admin-ui-theme/-/admin-ui-theme-0.19.0.tgz#db2b75f7a0651f304ecdd3f0c886674371155085"
+  integrity sha512-G1logAGctWhoFqLNg8eVML+meAe4AcGQ6KoYUtTq+P/pSChTbUCQPgTFMbo4YCjKYlAZ+N8BdUlTKz0WVzk/cg==
   dependencies:
     polished "^4.0.3"
 
-"@vtex/admin-ui@^0.72.0":
-  version "0.72.0"
-  resolved "https://registry.yarnpkg.com/@vtex/admin-ui/-/admin-ui-0.72.0.tgz#7e30c10cac12df1a606aafc653555dd33b4b0575"
-  integrity sha512-zYf/xmL4n6kwNUZDh+XnlEGnFD+G0/fg7fkN+SWkSq0qTg5GX9u3jmcaP0YGuij53oncbuCfLC1n9LSW+PGh0g==
+"@vtex/admin-ui@^0.82.5":
+  version "0.82.5"
+  resolved "https://registry.yarnpkg.com/@vtex/admin-ui/-/admin-ui-0.82.5.tgz#0cfdfd3a798e958aa584b9143101a014fd98e7e1"
+  integrity sha512-yB+WuSANHpJZbLWCpBblrjdRgDoGIFDcD6atTr6LBQmEz4WK+Tpk/4CgfnGWwE8ZhxHOUpsY7CpM8MxCkTVzsg==
   dependencies:
-    "@emotion/babel-plugin" "^11.0.0"
-    "@emotion/react" "^11.1.4"
-    "@vtex/admin-ui-system" "^0.8.0"
-    "@vtex/admin-ui-theme" "^0.12.0"
+    "@emotion/babel-plugin" "^11.2.0"
+    "@emotion/css" "^11.1.3"
+    "@emotion/react" "^11.1.5"
+    "@vtex/admin-core" "^0.7.0"
     csstype "^3.0.5"
     deepmerge "^4.2.2"
     downshift "^6.0.6"
@@ -398,7 +449,7 @@
     polished "^3.6.7"
     react-device-detect "^1.15.0"
     react-is "^17.0.1"
-    reakit "1.2.3"
+    reakit "^1.3.5"
     reakit-utils "^0.14.3"
     tiny-invariant "^1.1.0"
     tiny-warning "^1.0.3"
@@ -451,7 +502,7 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
 
-body-scroll-lock@^3.0.2:
+body-scroll-lock@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/body-scroll-lock/-/body-scroll-lock-3.1.5.tgz#c1392d9217ed2c3e237fee1e910f6cdd80b7aaec"
   integrity sha512-Yi1Xaml0EvNA0OYWxXiYNqY24AfWkbA6w5vxE7GWxtKfzIbZM+Qw+aSmkgsbWzbHiy/RCSkUZBplVxTA+E4jJg==
@@ -997,35 +1048,40 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
-reakit-system@^0.14.3:
-  version "0.14.5"
-  resolved "https://registry.yarnpkg.com/reakit-system/-/reakit-system-0.14.5.tgz#1fd0bf79d50fbf6dc8a2801fd68540ecdb67cdbe"
-  integrity sha512-zoUjfbNlYpb9GxlVwTiBJco0M7J4zKoJ+anhTUiAfo5OKabnuGUcI8fJ4OTiWgzH7XSdjDSubb2xCfGnwLR8BA==
+reakit-system@^0.15.1:
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/reakit-system/-/reakit-system-0.15.1.tgz#bf5cc7a03f60a817373bc9cbb4a689c1f4100547"
+  integrity sha512-PkqfAyEohtcEu/gUvKriCv42NywDtUgvocEN3147BI45dOFAB89nrT7wRIbIcKJiUT598F+JlPXAZZVLWhc1Kg==
   dependencies:
-    reakit-utils "^0.14.4"
+    reakit-utils "^0.15.1"
 
-reakit-utils@^0.14.3, reakit-utils@^0.14.4:
+reakit-utils@^0.14.3:
   version "0.14.4"
   resolved "https://registry.yarnpkg.com/reakit-utils/-/reakit-utils-0.14.4.tgz#1ecf035faf58960ba48eac2963f70269596effcf"
   integrity sha512-jDEf/NmZVJ6fs10G16ifD+RFhQikSLN7VfjRHu0CPoUj4g6lFXd5PPcRXCY81qiqc9FVHjr2d2fmsw1hs6xUxA==
 
-reakit-warning@^0.5.3:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/reakit-warning/-/reakit-warning-0.5.5.tgz#551afcfd9b0c3dc92eab21fcca001fc2ebbc8465"
-  integrity sha512-OuP1r7rlSSJZsoLuc0CPA2ACPKnWO8HDbFktiiidbT67UjuX6udYV1AUsIgMJ8ado9K5gZGjPj7IB/GDYo9Yjg==
-  dependencies:
-    reakit-utils "^0.14.4"
+reakit-utils@^0.15.1:
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/reakit-utils/-/reakit-utils-0.15.1.tgz#797f0a43f6a1dbc22d161224d5d2272e287dbfe3"
+  integrity sha512-6cZgKGvOkAMQgkwU9jdYbHfkuIN1Pr+vwcB19plLvcTfVN0Or10JhIuj9X+JaPZyI7ydqTDFaKNdUcDP69o/+Q==
 
-reakit@1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/reakit/-/reakit-1.2.3.tgz#3a144e836366bd4d3388665bd0ee39d5ad595853"
-  integrity sha512-bxtrH9O5beHGWzlVzRr+C6idUiV58/rRzBTmw1nu6Wj+hX0yjJDGlSlOLD/oOufhLCjjBGP8s8U3NuLuq4Xv+g==
+reakit-warning@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/reakit-warning/-/reakit-warning-0.6.1.tgz#dba33bb8866aebe30e67ac433ead707d16d38a36"
+  integrity sha512-poFUV0EyxB+CcV9uTNBAFmcgsnR2DzAbOTkld4Ul+QOKSeEHZB3b3+MoZQgcYHmbvG19Na1uWaM7ES+/Eyr8tQ==
   dependencies:
-    "@popperjs/core" "^2.4.4"
-    body-scroll-lock "^3.0.2"
-    reakit-system "^0.14.3"
-    reakit-utils "^0.14.3"
-    reakit-warning "^0.5.3"
+    reakit-utils "^0.15.1"
+
+reakit@^1.3.5:
+  version "1.3.6"
+  resolved "https://registry.yarnpkg.com/reakit/-/reakit-1.3.6.tgz#0a58a1b5ba839b24cf722a5816efe72dc2240e7f"
+  integrity sha512-/I7XNPEUuRjCVwDkriy7HKuSKTtCmojZrrClGIg1gexB7Ij5vjpEbyUZzwHMmvIEoMqUZDC0Q6cDWfLpqaY9vA==
+  dependencies:
+    "@popperjs/core" "^2.5.4"
+    body-scroll-lock "^3.1.5"
+    reakit-system "^0.15.1"
+    reakit-utils "^0.15.1"
+    reakit-warning "^0.6.1"
 
 regenerator-runtime@^0.13.4:
   version "0.13.7"
