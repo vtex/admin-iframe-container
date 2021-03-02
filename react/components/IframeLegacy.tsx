@@ -148,9 +148,6 @@ export function IframeLegacy(props: Props) {
     return `https://${environment}${host}${source}`
   }, [account, env, hash, patchedSearch, props?.params?.slug, workspace])
 
-  // eslint-disable-next-line no-console
-  console.log(src)
-
   return (
     <Box
       styles={{
