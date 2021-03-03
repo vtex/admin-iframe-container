@@ -1,12 +1,8 @@
 import type { ReactNode } from 'react'
 import type { FlexProps, StyleProp } from '@vtex/admin-ui'
-import { jsxs, Flex, merge } from '@vtex/admin-ui'
+import { createComponent, Flex, merge } from '@vtex/admin-ui'
 
-export function Tabs(props: TabsProps) {
-  const tabsProps = useTabs(props)
-
-  return jsxs(Flex, tabsProps)
-}
+export const Tabs = createComponent(Flex, useTabs)
 
 export function useTabs(props: TabsProps): FlexProps {
   const { styleOverrides, ...rest } = props

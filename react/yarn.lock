@@ -260,9 +260,9 @@
     chalk "^3.0.0"
 
 "@popperjs/core@^2.5.4":
-  version "2.8.6"
-  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.8.6.tgz#ad75ebe8dbecfa145af3c7e4d0ae98016458d005"
-  integrity sha512-1oXH2bAFXz9SttE1v/0Jp+2ZVePsPEAPGIuPKrmljWZcS3FPBEn2Q4WcANozZC0YiCjTWOF55k0g6rbSZS39ew==
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.9.0.tgz#32e63212293dd3efbb521cd35a5020ab66eaa546"
+  integrity sha512-wjtKehFAIARq2OxK8j3JrggNlEslJfNuSm2ArteIbKyRMts2g0a7KzTxfRVNUM+O0gnBJ2hNV8nWPOYBgI1sew==
 
 "@types/classnames@^2.2.9":
   version "2.2.11"
@@ -404,10 +404,10 @@
     lodash.merge "^4.6.2"
     tiny-warning "^1.0.3"
 
-"@vtex/admin-ui-icons@^0.8.12":
-  version "0.8.12"
-  resolved "https://registry.yarnpkg.com/@vtex/admin-ui-icons/-/admin-ui-icons-0.8.12.tgz#03ba02a89188729a20d908ff3d2c1a87fd6d7ee7"
-  integrity sha512-kqXFE21dejJmIDHHby2dLmn1Np2UX/+QgK2CBbfi2bUwAeYsdoXd2r9LHKd1r+/TwwcGn7YGGW7Rh3wdzo7aOw==
+"@vtex/admin-ui-icons@^0.8.13":
+  version "0.8.13"
+  resolved "https://registry.yarnpkg.com/@vtex/admin-ui-icons/-/admin-ui-icons-0.8.13.tgz#7298fb24c4d710ddd0a8b5e607525ac009d5bd87"
+  integrity sha512-WhsEcJQfQAjlcSPBrg4Ivgw66Kn6T8BHSeJ+x5gqWxUab9WZ+wlLT0wlwQZUeeHb1BPaEM9oDwmwtoXKeocphQ==
 
 "@vtex/admin-ui-system@^0.14.0":
   version "0.14.0"
@@ -432,10 +432,10 @@
   dependencies:
     polished "^4.0.3"
 
-"@vtex/admin-ui@^0.82.5":
-  version "0.82.5"
-  resolved "https://registry.yarnpkg.com/@vtex/admin-ui/-/admin-ui-0.82.5.tgz#0cfdfd3a798e958aa584b9143101a014fd98e7e1"
-  integrity sha512-yB+WuSANHpJZbLWCpBblrjdRgDoGIFDcD6atTr6LBQmEz4WK+Tpk/4CgfnGWwE8ZhxHOUpsY7CpM8MxCkTVzsg==
+"@vtex/admin-ui@^0.82.7":
+  version "0.82.7"
+  resolved "https://registry.yarnpkg.com/@vtex/admin-ui/-/admin-ui-0.82.7.tgz#13173e8244a389356d9ad7f48e9ccd1ebe68b7bd"
+  integrity sha512-mnMbrx4MBLXB9BCEQVYR8CjTDMlGuwmX3jlbI/79mpg6olNB32Sket9wwlwLZ3KVaD+c1qRk04e7qjFu/o08Eg==
   dependencies:
     "@emotion/babel-plugin" "^11.2.0"
     "@emotion/css" "^11.1.3"

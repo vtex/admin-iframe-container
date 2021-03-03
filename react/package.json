@@ -5,9 +5,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "@vtex/admin-ui": "^0.82.7",
+    "@vtex/admin-ui-icons": "^0.8.13",
     "@vtex/admin-core": "^0.7.0",
-    "@vtex/admin-ui": "^0.82.5",
-    "@vtex/admin-ui-icons": "^0.8.12",
     "axios": "^0.18.1",
     "classnames": "^2.2.5",
     "js-cookie": "^2.2.0",

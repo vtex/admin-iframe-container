@@ -1,13 +1,16 @@
 import type { ReactNode } from 'react'
 import type { FlexProps, StyleProp } from '@vtex/admin-ui'
-import { Heading, jsxs, Flex, merge, Button } from '@vtex/admin-ui'
+import {
+  createComponent,
+  Heading,
+  jsxs,
+  Flex,
+  merge,
+  Button,
+} from '@vtex/admin-ui'
 import { IconArrow } from '@vtex/admin-ui-icons'
 
-export function Navbar(props: NavbarProps) {
-  const navbarProps = useNavbar(props)
-
-  return jsxs(Flex, navbarProps)
-}
+export const Navbar = createComponent(Flex, useNavbar)
 
 export function useNavbar(props: NavbarProps): FlexProps {
   const { styleOverrides, children, title, link, ...rest } = props

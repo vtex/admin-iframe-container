@@ -1,11 +1,7 @@
 import type { StyleProp, ButtonProps } from '@vtex/admin-ui'
-import { jsxs, Button, merge } from '@vtex/admin-ui'
+import { createComponent, Button, merge } from '@vtex/admin-ui'
 
-export function Tab(props: TabProps) {
-  const tabProps = useTab(props)
-
-  return jsxs(Button, tabProps)
-}
+export const Tab = createComponent(Button, useTab)
 
 export function useTab(props: TabProps): ButtonProps {
   const { styleOverrides, active, ...rest } = props
