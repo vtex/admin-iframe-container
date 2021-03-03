@@ -7,8 +7,8 @@ import {
   Flex,
   merge,
   Button,
+  IconArrow,
 } from '@vtex/admin-ui'
-import { IconArrow } from '@vtex/admin-ui-icons'
 
 export const Navbar = createComponent(Flex, useNavbar)
 
