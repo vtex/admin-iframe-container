@@ -1,12 +1,14 @@
 {
   "name": "admin-iframe-container",
   "vendor": "vtex",
-  "version": "2.0.1-beta.0",
+  "version": "2.1.0",
   "title": "VTEX Admin Iframe Container",
   "description": "VTEX Admin Iframe Container",
   "mustUpdateAt": "2017-09-26",
   "credentialType": "absolute",
-  "categories": ["admin"],
+  "categories": [
+    "admin"
+  ],
   "settingsSchema": {},
   "dependencies": {
     "vtex.render-runtime": "8.x"
