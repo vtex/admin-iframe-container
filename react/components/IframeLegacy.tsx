@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { Box, cn, Skeleton } from '@vtex/admin-ui'
+import { Box, useSystem, Skeleton } from '@vtex/admin-ui'
 import { useRuntime } from 'vtex.render-runtime'
 
 import { LegacyHeader } from './LegacyHeader'
@@ -12,6 +12,9 @@ interface Props {
   }
 }
 
+const minHeight = 700
+const compensation = 42
+
 export function IframeLegacy(props: Props) {
   const {
     account,
@@ -21,21 +24,12 @@ export function IframeLegacy(props: Props) {
     emitter,
   } = useRuntime()
 
+  const { cn } = useSystem()
   const { startLoading, stopLoading } = useLoading()
-  const [height, setHeight] = useState(700)
+  const [height, setHeight] = useState(minHeight)
   const [loaded, setLoaded] = useState(false)
 
   const iframeRef = useRef<HTMLIFrameElement>(null)
-
-  const updateHeight = useCallback(value => {
-    const threshold = 700
-
-    if (value < threshold) {
-      setHeight(700)
-    } else {
-      setHeight(value)
-    }
-  }, [])
 
   const updateChildLocale = (payload: unknown) => {
     const message = { action: { type: 'LOCALE_SELECTED', payload } }
@@ -76,10 +70,7 @@ export function IframeLegacy(props: Props) {
       ) {
         // @ts-expect-error browser error should be here
         global.browserHistory.push(
-          `${iframePathname.replace(
-            'admin-proxy',
-            'admin'
-          )}${patchedIframeSearch}${iframeHash}`
+          `${iframePathname}${patchedIframeSearch}${iframeHash}`
         )
       }
     },
@@ -94,13 +85,20 @@ export function IframeLegacy(props: Props) {
 
       const { type } = event.data
 
-      if (type === 'admin.updateContentHeight') updateHeight(event.data.height)
+      if (type === 'admin.updateContentHeight') {
+        const value = event.data.height
+
+        if (Math.abs(height - value) > compensation) {
+          setHeight(value)
+        }
+      }
+
       if (type === 'admin.navigation') {
         if (window) window.scrollTo(0, 0)
         updateBrowserHistory(event.data)
       }
     },
-    [updateHeight, updateBrowserHistory]
+    [height, updateBrowserHistory]
   )
 
   const handlePopState = () => {
@@ -139,12 +137,16 @@ export function IframeLegacy(props: Props) {
 
   const src = React.useMemo(() => {
     const isDevWorkspace = workspace && workspace !== 'master'
+
     const environment = isDevWorkspace ? `${workspace}--` : ''
-    const host = `${account}.myvtex.com/admin-proxy/`
+    const host = `${account}.vtexcommerce${
+      env === 'beta' ? 'beta' : 'stable'
+    }.com.br/admin/`
+
     const source = `${props?.params?.slug}${patchedSearch}${hash}`
 
     return `https://${environment}${host}${source}`
-  }, [account, hash, patchedSearch, props?.params?.slug, workspace])
+  }, [account, env, hash, patchedSearch, props?.params?.slug, workspace])
 
   return (
     <Box
@@ -172,7 +174,7 @@ export function IframeLegacy(props: Props) {
         <Skeleton
           styles={{
             width: 'full',
-            height: 700,
+            height: minHeight,
           }}
         />
       )}

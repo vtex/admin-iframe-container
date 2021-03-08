@@ -1,6 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useRuntime } from 'vtex.render-runtime'
-import { cn } from '@vtex/admin-ui'
+import { useSystem } from '@vtex/admin-ui'
 
 import { getEnv } from '../util'
 import { useLoading } from '../hooks'
@@ -15,6 +15,7 @@ interface Props {
 
 export function Iframe(props: Props) {
   const { isDeloreanAdmin, params, customHeightGap = '3em' } = props
+  const { cn } = useSystem()
 
   const [loaded, setLoaded] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
