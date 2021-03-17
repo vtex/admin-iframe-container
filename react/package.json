@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "@vtex/admin-ui": "^0.84.2",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "classnames": "^2.2.5",
     "js-cookie": "^2.2.0",
     "prop-types": "^15.5.10",
