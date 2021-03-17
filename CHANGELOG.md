@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- `admin-ui` to version `0.84.2`.
+
 ## [2.1.0] - 2021-03-08
 
 ### Changed

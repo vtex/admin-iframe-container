@@ -5,19 +5,19 @@ import { createComponent, Flex, merge } from '@vtex/admin-ui'
 export const Tabs = createComponent(Flex, useTabs)
 
 export function useTabs(props: TabsProps): FlexProps {
-  const { styleOverrides, ...rest } = props
+  const { csx, ...rest } = props
 
   const theme: StyleProp = {
     height: 52,
   }
 
   return {
-    styles: merge(theme, styleOverrides),
+    csx: merge(theme, csx),
     ...rest,
   }
 }
 
 export interface TabsProps {
   children?: ReactNode
-  styleOverrides?: StyleProp
+  csx?: StyleProp
 }

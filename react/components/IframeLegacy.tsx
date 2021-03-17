@@ -150,7 +150,7 @@ export function IframeLegacy(props: Props) {
 
   return (
     <Box
-      styles={{
+      csx={{
         overflow: 'scroll',
       }}
     >
@@ -172,7 +172,7 @@ export function IframeLegacy(props: Props) {
         />
       ) : (
         <Skeleton
-          styles={{
+          csx={{
             width: 'full',
             height: minHeight,
           }}

@@ -374,15 +374,16 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@vtex/admin-core@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@vtex/admin-core/-/admin-core-0.7.0.tgz#6d9265edec7958d4a0471ffeeedf61ab2040fee0"
-  integrity sha512-h9mEwWZKvtO+/Owkss6keqVGkYs8kL7kFVOtVW4CfC44mM4RPGnPRFfR74TNRbM9O3620SmJRkL27Nefag0aNA==
+"@vtex/admin-core@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@vtex/admin-core/-/admin-core-0.9.1.tgz#9f9dcde1dae802db06664079c70929a58d4fbe51"
+  integrity sha512-P9DPUEixd3e0X4Qa5KYIo5ypS88yl5ffaAQTP+XS4M6tp/3PfqQVVDK+fcH4hiOePDQ5AToeKEC/0i/ac8IOEQ==
   dependencies:
-    "@vtex/admin-ui-system" "^0.14.0"
-    "@vtex/admin-ui-theme" "^0.19.0"
+    "@vtex/admin-ui-system" "^0.15.0"
+    "@vtex/admin-ui-theme" "^0.20.1"
     deepmerge "^4.2.2"
     focus-visible "^5.1.0"
+    react-helmet "6.1.0"
     tiny-invariant "^1.1.0"
     tiny-warning "^1.0.3"
 
@@ -394,6 +395,11 @@
     tiny-invariant "^1.1.0"
     tiny-warning "^1.0.3"
 
+"@vtex/admin-primitives@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@vtex/admin-primitives/-/admin-primitives-0.2.2.tgz#e47f82748be97639a8a69f1eb451d5f04ada10e4"
+  integrity sha512-cf7lj9Z9UPvkLOq7U80QklPC1e9js83maQgEOdQg+nTi+aZFWd40Etdqlg/ChmK4K+rRwq0GBtNNXORXtt4OfQ==
+
 "@vtex/admin-styles@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@vtex/admin-styles/-/admin-styles-0.2.0.tgz#c6381e566f3991e759009ab2544c6fbdd82ca7b7"
@@ -404,17 +410,17 @@
     lodash.merge "^4.6.2"
     tiny-warning "^1.0.3"
 
-"@vtex/admin-ui-icons@^0.9.0":
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/@vtex/admin-ui-icons/-/admin-ui-icons-0.9.0.tgz#fb26c475ab2afa444e2a76cd987722929b44d5f0"
-  integrity sha512-XH7CBXz8DhKho8yeEUmpa/ezflZ6EOmow2BJI2UsLeF7KwfN1n/qmkaT3pFG1O2Ut49CUUyeFuW7XsFWce6OiQ==
+"@vtex/admin-ui-icons@^0.9.6":
+  version "0.9.6"
+  resolved "https://registry.yarnpkg.com/@vtex/admin-ui-icons/-/admin-ui-icons-0.9.6.tgz#176f51664b0505d73e3b8898fa5b0f581cfba439"
+  integrity sha512-n/ItLsDu3BMJtmnGIAw+fNlvjrwu1/I7uKekt2BTocOhOFYVQr8NvOdGdfjCjjt+Yy4XDYCxnQels799+TeOpg==
   dependencies:
-    "@vtex/admin-core" "^0.7.0"
+    "@vtex/admin-core" "^0.9.1"
 
-"@vtex/admin-ui-system@^0.14.0":
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/@vtex/admin-ui-system/-/admin-ui-system-0.14.0.tgz#c41d415894f516952e4af291cf9d67dfed57f924"
-  integrity sha512-+5OJASJYHXzqY5v5uLg9yu6hVhsRCvXCPEOdxRS6fBI9hZno7HLkFu9Ss+1ILUBvl+l/8pd3ZFEq42tvdHYlsg==
+"@vtex/admin-ui-system@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@vtex/admin-ui-system/-/admin-ui-system-0.15.0.tgz#193a87ff277bab62de60d691f6f5b3f36dcda338"
+  integrity sha512-7atrOOj2o//RZduaqHaAqmsxsjboGnXj3p9p2C2l4Z9xqSnNcv5Q/oa6JSWwTOT7tKBT5eEvj31Z9uE1ckc+Sw==
   dependencies:
     "@vtex/admin-jsxs" "^0.1.1"
     "@vtex/admin-styles" "^0.2.0"
@@ -427,23 +433,24 @@
     tiny-invariant "^1.1.0"
     tiny-warning "^1.0.3"
 
-"@vtex/admin-ui-theme@^0.19.0":
-  version "0.19.0"
-  resolved "https://registry.yarnpkg.com/@vtex/admin-ui-theme/-/admin-ui-theme-0.19.0.tgz#db2b75f7a0651f304ecdd3f0c886674371155085"
-  integrity sha512-G1logAGctWhoFqLNg8eVML+meAe4AcGQ6KoYUtTq+P/pSChTbUCQPgTFMbo4YCjKYlAZ+N8BdUlTKz0WVzk/cg==
+"@vtex/admin-ui-theme@^0.20.1":
+  version "0.20.1"
+  resolved "https://registry.yarnpkg.com/@vtex/admin-ui-theme/-/admin-ui-theme-0.20.1.tgz#0b22f62bd1bb81def5206e5ac454c0cb9609b639"
+  integrity sha512-YiD1seSCezGhDJuuWpuOOBq/ZMnmvnxFSllRQ4iE4+mTpbiXOazvUL0XtqAOOCnK0aFwQBPcos0sn7jegsS81g==
   dependencies:
     polished "^4.0.3"
 
-"@vtex/admin-ui@^0.83.0":
-  version "0.83.0"
-  resolved "https://registry.yarnpkg.com/@vtex/admin-ui/-/admin-ui-0.83.0.tgz#1b01570edef23c12131697e2abc43ef83505e6df"
-  integrity sha512-iC3/GKXOQKbYRIDbwUObbtxahGtqUbzq4tOpWcJEcAwxwNNtoczOA/ogUUY/+zZPikKwtDhYaLu/6OabIhDkTQ==
+"@vtex/admin-ui@^0.84.2":
+  version "0.84.2"
+  resolved "https://registry.yarnpkg.com/@vtex/admin-ui/-/admin-ui-0.84.2.tgz#695c795e28f050f031b0836fe447d20c1cedb773"
+  integrity sha512-lQNMo1NXIV2omMOOJRAYuFZor33jFjh3BN5P6qWqFQ3fIPZNzsMpF778Ikecif5/13Mjh+cdE4w3JIKpZtSZWg==
   dependencies:
     "@emotion/babel-plugin" "^11.2.0"
     "@emotion/css" "^11.1.3"
     "@emotion/react" "^11.1.5"
-    "@vtex/admin-core" "^0.7.0"
-    "@vtex/admin-ui-icons" "^0.9.0"
+    "@vtex/admin-core" "^0.9.1"
+    "@vtex/admin-primitives" "^0.2.2"
+    "@vtex/admin-ui-icons" "^0.9.6"
     csstype "^3.0.5"
     deepmerge "^4.2.2"
     downshift "^6.0.6"
@@ -1023,6 +1030,21 @@ react-dom@^16.8.0:
     prop-types "^15.6.2"
     scheduler "^0.19.1"
 
+react-fast-compare@^3.1.1:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
+  integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
+
+react-helmet@6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-6.1.0.tgz#a750d5165cb13cf213e44747502652e794468726"
+  integrity sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==
+  dependencies:
+    object-assign "^4.1.1"
+    prop-types "^15.7.2"
+    react-fast-compare "^3.1.1"
+    react-side-effect "^2.1.0"
+
 react-intl@*, react-intl@^5.10.16:
   version "5.10.16"
   resolved "https://registry.yarnpkg.com/react-intl/-/react-intl-5.10.16.tgz#2ccde74acd26cbe4f9e6e42765048a7f2f40e645"
@@ -1050,6 +1072,11 @@ react-is@^17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
+
+react-side-effect@^2.1.0:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-2.1.1.tgz#66c5701c3e7560ab4822a4ee2742dee215d72eb3"
+  integrity sha512-2FoTQzRNTncBVtnzxFOk2mCpcfxQpenBMbk5kSVBg5UcPqV9fRbgY2zhb7GTWWOlpFmAxhClBDlIq8Rsubz1yQ==
 
 reakit-system@^0.15.1:
   version "0.15.1"

@@ -4,7 +4,7 @@ import { createComponent, Button, merge } from '@vtex/admin-ui'
 export const Tab = createComponent(Button, useTab)
 
 export function useTab(props: TabProps): ButtonProps {
-  const { styleOverrides, active, ...rest } = props
+  const { csx, active, ...rest } = props
 
   const activeStyle: StyleProp = active
     ? {
@@ -33,13 +33,13 @@ export function useTab(props: TabProps): ButtonProps {
   }
 
   return {
-    styleOverrides: merge(theme, styleOverrides),
+    csx: merge(theme, csx),
     variant: 'adaptative-dark',
     ...rest,
   }
 }
 
 export interface TabProps
-  extends Pick<ButtonProps, 'children' | 'styleOverrides' | 'onClick'> {
+  extends Pick<ButtonProps, 'children' | 'csx' | 'onClick'> {
   active?: boolean
 }
