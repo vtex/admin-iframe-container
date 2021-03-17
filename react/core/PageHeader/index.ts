@@ -5,7 +5,7 @@ import { createComponent, Flex, merge } from '@vtex/admin-ui'
 export const PageHeader = createComponent(Flex, usePageHeader)
 
 export function usePageHeader(props: PageHeaderProps): FlexProps {
-  const { styleOverrides, size = 'regular', ...rest } = props
+  const { csx, size = 'regular', ...rest } = props
 
   const theme: StyleProp = {
     marginBottom: 2,
@@ -14,7 +14,7 @@ export function usePageHeader(props: PageHeaderProps): FlexProps {
   }
 
   return {
-    styles: merge(theme, styleOverrides),
+    csx: merge(theme, csx),
     direction: 'column',
     element: 'header',
     justify: 'space-between',
@@ -24,7 +24,7 @@ export function usePageHeader(props: PageHeaderProps): FlexProps {
 
 export interface PageHeaderProps {
   children?: ReactNode
-  styleOverrides?: StyleProp
+  csx?: StyleProp
   size?: 'regular' | 'large'
   id?: string
 }

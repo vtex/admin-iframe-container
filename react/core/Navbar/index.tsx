@@ -13,7 +13,7 @@ import {
 export const Navbar = createComponent(Flex, useNavbar)
 
 export function useNavbar(props: NavbarProps): FlexProps {
-  const { styleOverrides, children, title, link, ...rest } = props
+  const { csx, children, title, link, ...rest } = props
 
   const theme: StyleProp = {
     height: 76,
@@ -21,7 +21,7 @@ export function useNavbar(props: NavbarProps): FlexProps {
   }
 
   return {
-    styles: merge(theme, styleOverrides),
+    csx: merge(theme, csx),
     children: [
       link
         ? jsxs(Button, {
@@ -36,7 +36,7 @@ export function useNavbar(props: NavbarProps): FlexProps {
       jsxs(
         Heading,
         {
-          styleOverrides: {
+          csx: {
             fontSettings: 'medium',
           },
         },
@@ -50,7 +50,7 @@ export function useNavbar(props: NavbarProps): FlexProps {
 
 export interface NavbarProps {
   children?: ReactNode
-  styleOverrides?: StyleProp
+  csx?: StyleProp
   title?: ReactNode
   link?: {
     label: string
