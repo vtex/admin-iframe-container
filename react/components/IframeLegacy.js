@@ -20,7 +20,6 @@ const getLegacyBaseURL = (account, workspace) => {
 
   const environment = isDevWorkspace ? `${workspace}--` : ''
 
-  console.log('workspace', workspace)
   return isSafari
     ? `https://${environment}${account}.myvtex.com/admin-proxy/`
     : `https://${environment}${account}.vtexcommerce${
@@ -67,10 +66,7 @@ class IframeLegacy extends Component {
   handleIframeMessage = (event) => {
     if (event.data && event.data.type) {
       const type = event.data.type
-      console.debug(
-        `%c [LEGACY IFRAME] \n Received iframe message with type: ${type}`,
-        'background: #002833; color: #bada55'
-      )
+
       if (type === 'admin.updateContentHeight') {
         const iframeHeight = parseInt(
           this.iframe.style.height.replace('px', '')
