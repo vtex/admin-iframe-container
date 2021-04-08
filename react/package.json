@@ -10,6 +10,7 @@
     "js-cookie": "^2.2.0",
     "prop-types": "^15.5.10",
     "ramda": "^0.25.0",
+    "react-device-detect": "^1.17.0",
     "react-intl": "^2.7.2"
   },
   "devDependencies": {

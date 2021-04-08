@@ -11,7 +11,8 @@
   ],
   "settingsSchema": {},
   "dependencies": {
-    "vtex.styleguide": "9.x"
+    "vtex.styleguide": "9.x",
+    "vtex.admin-proxy": "0.x"
   },
   "builders": {
     "react": "3.x"
