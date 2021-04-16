@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- Legacy apps not loading on safari.
+- Legacy apps not loading on dev-workspaces.
+
 ## [1.1.0] - 2020-11-10
 
 ### Added
@@ -19,7 +24,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Rollback v1.0.9
 
 ## [1.0.9] - 2019-09-26
+
 ### Added
+
 - Prevent to show a black page while iframe is in loading.
 - Force reload when lost session.
 
@@ -49,7 +56,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 
- - Remove myuser old admin from the legacy admins whitelist
+- Remove myuser old admin from the legacy admins whitelist
 
 ## [1.0.2] - 2019-07-17
 

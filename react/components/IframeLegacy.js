@@ -1,10 +1,31 @@
-import { stopLoading, getEnv, componentDidMount, componentWillUnmount, updateChildLocale, handleRef, contextTypes, propTypes, checkPricingVersion } from './IframeUtils'
+import {
+  stopLoading,
+  getEnv,
+  componentDidMount,
+  componentWillUnmount,
+  updateChildLocale,
+  handleRef,
+  contextTypes,
+  propTypes,
+  checkPricingVersion,
+} from './IframeUtils'
 import LegacyHeader from './LegacyHeader'
 import { injectIntl } from 'react-intl'
 import React, { Component } from 'react'
+import { isSafari } from 'react-device-detect'
 
 const COMPENSATION = 42
-const getLegacyBaseURL = account => `https://${account}.vtexcommerce${getEnv() === 'beta' ? 'beta' : 'stable'}.com.br/admin/`
+const getLegacyBaseURL = (account, workspace) => {
+  const isDevWorkspace = workspace && workspace !== 'master'
+
+  const environment = isDevWorkspace ? `${workspace}--` : ''
+
+  return isSafari
+    ? `https://${environment}${account}.myvtex.com/admin-proxy/`
+    : `https://${environment}${account}.vtexcommerce${
+        getEnv() === 'beta' ? 'beta' : 'stable'
+      }.com.br/admin/`
+}
 
 class IframeLegacy extends Component {
   static contextTypes = contextTypes
@@ -27,8 +48,8 @@ class IframeLegacy extends Component {
   }
 
   handlePopState = () => {
-    this.setState({loaded: false}, () => {
-      this.setState({loaded: true})
+    this.setState({ loaded: false }, () => {
+      this.setState({ loaded: true })
     })
   }
 
@@ -45,9 +66,11 @@ class IframeLegacy extends Component {
   handleIframeMessage = (event) => {
     if (event.data && event.data.type) {
       const type = event.data.type
-      console.debug(`%c [LEGACY IFRAME] \n Received iframe message with type: ${type}`, 'background: #002833; color: #bada55')
+
       if (type === 'admin.updateContentHeight') {
-        const iframeHeight = parseInt(this.iframe.style.height.replace('px', ''))
+        const iframeHeight = parseInt(
+          this.iframe.style.height.replace('px', '')
+        )
         const eventHeight = event.data.height
         if (Math.abs(eventHeight - iframeHeight) > COMPENSATION) {
           // This compensation is here to prevent a loop where the height of the content keeps growing
@@ -60,10 +83,6 @@ class IframeLegacy extends Component {
         this.updateBrowserHistory(event.data)
         // reset iframe height on navigate
         this.iframe.style.height = '700px'
-      } else if (type === 'admin.absoluteNavigation') {
-        const newPathName = event.data.destination.split('/admin/')[1]
-        const newUrl = `${window.location.origin}/admin/${newPathName}`
-        window.location.replace(newUrl)
       }
     }
   }
@@ -74,39 +93,65 @@ class IframeLegacy extends Component {
     if (this.iframe) {
       this.updateChildLocale(this.context.culture.locale)
 
-      const message = { type: 'admin.parent.hostname', hostname: window.location.hostname }
+      const message = {
+        type: 'admin.parent.hostname',
+        hostname: window.location.hostname,
+      }
       this.iframe.contentWindow.postMessage(message, '*')
     }
   }
 
-  updateBrowserHistory = ({ pathname: iframePathname, search: iframeSearch, hash: iframeHash }) => {
+  updateBrowserHistory = ({
+    pathname: iframePathname,
+    search: iframeSearch,
+    hash: iframeHash,
+  }) => {
     const { pathname, search = '', hash = '' } = window.location
     const patchedIframeSearch = iframeSearch.replace(/(\?|\&)env\=beta/, '')
 
-    if (iframePathname.replace('/iframe', '') !== pathname
-      || (search !== patchedIframeSearch)
-      || (hash !== iframeHash)) {
-      const newPath = `${iframePathname.replace('/admin/iframe', '/admin')}${patchedIframeSearch}${iframeHash}`
-      global.browserHistory.push(newPath.replace(/\/+/g, '/'))
+    if (
+      iframePathname.replace('/iframe', '') !== pathname ||
+      search !== patchedIframeSearch ||
+      hash !== iframeHash
+    ) {
+      if (isSafari) {
+        global.browserHistory.push(
+          `${iframePathname.replace(
+            'admin-proxy',
+            'admin'
+          )}${patchedIframeSearch}${iframeHash}`
+        )
+      } else {
+        global.browserHistory.push(
+          `${iframePathname}${patchedIframeSearch}${iframeHash}`
+        )
+      }
     }
   }
 
   render() {
-    const { account, navigate } = this.context
-    const { intl, params: { slug = '' } } = this.props
+    const { account, workspace } = this.context
+    const {
+      intl,
+      params: { slug = '' },
+    } = this.props
     const { loaded, iframeQuery } = this.state
     const hash = loaded ? window.location.hash : ''
     const search = loaded ? window.location.search || '' : ''
     const env = getEnv()
-    const patchedSearch = env !== 'beta'
-      ? search
-      : search === ''
+    const patchedSearch =
+      env !== 'beta'
+        ? search
+        : search === ''
         ? '?env=beta'
         : search.includes('env=beta')
-          ? search
-          : search + '&env=beta'
+        ? search
+        : search + '&env=beta'
 
-    const src = `${getLegacyBaseURL(account)}${slug}${patchedSearch}${hash}`
+    const src = `${getLegacyBaseURL(
+      account,
+      workspace
+    )}${slug}${patchedSearch}${hash}`
 
     return loaded ? (
       <div className="w-100 calc--height overflow-container">
