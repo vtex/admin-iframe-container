@@ -19,7 +19,6 @@ const getLegacyBaseURL = (account, workspace) => {
   const isDevWorkspace = workspace && workspace !== 'master'
 
   const environment = isDevWorkspace ? `${workspace}--` : ''
-
   return isSafari
     ? `https://${environment}${account}.myvtex.com/admin-proxy/`
     : `https://${environment}${account}.vtexcommerce${
@@ -66,7 +65,6 @@ class IframeLegacy extends Component {
   handleIframeMessage = (event) => {
     if (event.data && event.data.type) {
       const type = event.data.type
-
       if (type === 'admin.updateContentHeight') {
         const iframeHeight = parseInt(
           this.iframe.style.height.replace('px', '')
@@ -83,6 +81,11 @@ class IframeLegacy extends Component {
         this.updateBrowserHistory(event.data)
         // reset iframe height on navigate
         this.iframe.style.height = '700px'
+      } else if (type === 'admin.absoluteNavigation') {
+        const [, pathname] = event.data.destination.split('/admin/')
+        const url = `${window.location.origin}/admin/${pathname}`
+
+        window.location.replace(url)
       }
     }
   }

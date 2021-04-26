@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- Navigation using links in legacy apps not working.
+
 ## [1.1.1] - 2021-04-16
 
 ### Fixed
