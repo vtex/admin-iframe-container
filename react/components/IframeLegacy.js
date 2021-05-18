@@ -168,6 +168,7 @@ class IframeLegacy extends Component {
           ref={this.handleRef}
           onLoad={this.handleOnLoad}
           data-hj-suppress
+          data-testid="admin-frame-container-legacy"
         />
       </div>
     ) : null
